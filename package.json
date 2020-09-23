@@ -1,0 +1,49 @@
+{
+  "name": "tournamentdirector",
+  "version": "1.0.0",
+  "description": "Software for running wrestling tournaments",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --config=webpack.dev.js",
+    "build": "webpack --mode=production --config=webpack.prod.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wrestleDB/TournamentDirector.git"
+  },
+  "author": "Aldon L. Isenberg II",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wrestleDB/TournamentDirector/issues"
+  },
+  "homepage": "https://github.com/wrestleDB/TournamentDirector#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.10.2",
+    "@babel/runtime-corejs3": "^7.10.2",
+    "axios": "^0.19.2",
+    "vue-router": "^3.3.4",
+    "vuex": "^3.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/plugin-transform-runtime": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "babel-loader": "^8.1.0",
+    "babel-preset-env": "^1.7.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "coffee-loader": "^1.0.0",
+    "coffeescript": "^2.5.1",
+    "css-loader": "^3.6.0",
+    "html-webpack-plugin": "^4.3.0",
+    "vue": "^2.6.11",
+    "vue-loader": "^15.9.2",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-middleware": "^3.6.0",
+    "webpack-dev-server": "^3.2.0",
+    "webpack-hot-middleware": "^2.24.3",
+    "webpack-merge": "^4.2.1"
+  }
+}
