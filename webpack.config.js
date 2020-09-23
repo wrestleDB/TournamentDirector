@@ -5,16 +5,19 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
   entry: {
-    app: './src/entry.js'
+    app: './src/client/entry.js'
   },
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, './dist')
+    path: path.resolve(__dirname, './lib')
   },
   plugins: [
     new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
-    new HtmlWebpackPlugin({ template: path.resolve(__dirname, './src/index.html') }) //https://github.com/jantimon/html-webpack-plugin/blob/master/docs/template-option.md
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, './src/client/index.html'), //https://github.com/jantimon/html-webpack-plugin/blob/master/docs/template-option.md
+      favicon: './public/favicon.ico'
+    })
   ],
   module: {
     rules: [

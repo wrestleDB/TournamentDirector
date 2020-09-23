@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --config=webpack.dev.js",
     "build": "webpack --mode=production --config=webpack.prod.js",
+    "server": "node-dev --no-deps --respawn src/server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,6 +23,10 @@
     "@babel/runtime": "^7.10.2",
     "@babel/runtime-corejs3": "^7.10.2",
     "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "helmet": "^4.1.1",
+    "mongodb": "^3.6.2",
+    "mongoose": "^5.10.6",
     "vue-router": "^3.3.4",
     "vuex": "^3.4.0"
   },
@@ -36,6 +41,7 @@
     "coffeescript": "^2.5.1",
     "css-loader": "^3.6.0",
     "html-webpack-plugin": "^4.3.0",
+    "node-dev": "^5.2.0",
     "vue": "^2.6.11",
     "vue-loader": "^15.9.2",
     "vue-template-compiler": "^2.6.11",
