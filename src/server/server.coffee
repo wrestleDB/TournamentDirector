@@ -80,23 +80,12 @@ app.post '/register', (req, res, next) ->
   newUser.save().then((user) -> console.log(user))
   res.redirect('/login')
 
-
-app.get '/protected-route', (req, res, next) =>
-  console.log "protected Route: ", req.userContext?.user
-  if (req.userContext?.user?._id)
-    res.send('<h1>You are authenticated</h1><p><a href="/logout">Logout and reload</a></p>')
-  else
-    res.send('<h1>You are not authenticated</h1><p><a href="/login">Login</a></p>')
-
 # // Visiting this route logs the user out
 app.get '/logout', (req, res, next) =>
   console.log "before-userContext: ", req.userContext
   authentication.logout req, res, (err) ->
     console.log "after-userContext: ", req.userContext
     res.redirect('/protected-route')
-
-app.get '/login-success', (req, res, next) ->
-  res.send('<p>You successfully logged in. --> <a href="/protected-route">Go to protected route</a></p>')
 
 app.get '/login-failure', (req, res, next) ->
   res.send('You entered the wrong password.')
