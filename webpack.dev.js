@@ -13,10 +13,10 @@ module.exports = merge(config, {
     stats: {
       color: true
     },
-    port: 3000,
+    port: 4000,
     host: '0.0.0.0',
     proxy: {
-      "/api": "http://localhost:8081"
+      "/api": "http://localhost:4001"
     }
   },
   plugins: [

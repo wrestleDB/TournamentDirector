@@ -1,14 +1,19 @@
 {createServer} = require 'http'
-express = require 'express'
+express        = require 'express'
 expressSession = require 'express-session'
-helmet = require 'helmet'
-path = require 'path'
+helmet         = require 'helmet'
+passport       = require 'passport'
+path           = require 'path'
 
-database = require "./services/database"
-sessionStore = require './services/session-store'
+authentication = require './services/authentication'
+database       = require "./services/database"
+sessionStore   = require './services/session-store'
 
-app = express()
+app    = express()
 server = createServer(app)
+
+# Connect Database
+database.connect()
 
 console.log "EXPRESS - Setting up configuration"
 
@@ -18,8 +23,8 @@ app.use helmet()
 app.use express.json()
 app.use express.urlencoded({extended: true})
 
-# Connect Database
-database.connect()
+# Static folder
+# app.use(express.static(path.resolve(__dirname, '../../lib/')))
 
 # Setup Express Session
 app.use(expressSession({
@@ -33,17 +38,73 @@ app.use(expressSession({
     maxAge: 6048000000 # 70 days
 }))
 
-app.get "/", (req, res, next) ->
-  if req.session.viewCount then req.session.viewCount++ else req.session.viewCount = 1
-  console.log "req.session: ", req.session
-  return next()
+authentication.init(app)
 
-# Static folder
+app.get "/", (req, res, next) ->
+  return next() if req.userContext?.user?._id
+  res.send('<h1>Home</h1><p>Please <a href="/register">register</a></p><p>Please <a href="/login">login</a></p>')
+
+# app.get "/", (req, res, next) ->
+  # console.log "must be logged in :SHRUG"
+
+app.get '/login', (req, res, next) ->
+  form = '<h1>Login Page</h1><form method="POST" action="/login">\
+  Enter Username:<br><input type="text" name="username">\
+  <br>Enter Password:<br><input type="password" name="password">\
+  <br><br><input type="submit" value="Submit"></form>'
+  res.send(form)
+
+app.post '/login', passport.authenticate('local', { failureRedirect: '/login-failure', successRedirect: '/' }), (err, req, res, next) ->
+  if err then next(err)
+
+
+app.get '/register', (req, res, next) ->
+  form = '<h1>Register Page</h1><form method="post" action="register">\
+  Enter Username:<br><input type="text" name="username">\
+  <br>Enter Password:<br><input type="password" name="password">\
+  <br><br><input type="submit" value="Submit"></form>'
+  res.send(form)
+
+
+app.post '/register', (req, res, next) ->
+  saltHash = genPassword(req.body.password)
+
+  salt = saltHash.salt
+  hash = saltHash.hash
+
+  newUser = new User
+    username: req.body.username,
+    hash: hash,
+    salt: salt
+
+  newUser.save().then((user) -> console.log(user))
+  res.redirect('/login')
+
+# // Visiting this route logs the user out
+app.get '/logout', (req, res, next) =>
+  console.log "before-userContext: ", req.userContext
+  authentication.logout req, res, (err) ->
+    console.log "after-userContext: ", req.userContext
+    res.redirect('/protected-route')
+
+app.get '/login-failure', (req, res, next) ->
+  res.send('You entered the wrong password.')
+
 app.use(express.static(path.resolve(__dirname, '../../lib/')))
 
-# Handle SPA
-# app.get(/.*/, (req, res) => res.sendFile(path.resolve(__dirname, '../client/index.html')))
+app.use (req, res, next) ->
+  console.log("req.session: ", req.session)
+  console.log("req.userContext: ", req.userContext)
+  return res.redirect('/') unless req.userContext
+  next()
 
+
+genPassword = (password) ->
+  salt    = "salt"#crypto.randomBytes(32).toString('hex');
+  genHash = "genHash"#crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
+  return
+    salt: salt
+    hash: genHash
 ################################################################
 # Startup
 ################################################################
