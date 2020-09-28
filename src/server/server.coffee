@@ -5,6 +5,8 @@ helmet         = require 'helmet'
 passport       = require 'passport'
 path           = require 'path'
 
+User           = require './models/user'
+
 authentication = require './services/authentication'
 database       = require "./services/database"
 sessionStore   = require './services/session-store'
@@ -44,9 +46,6 @@ app.get "/", (req, res, next) ->
   return next() if req.userContext?.user?._id
   res.send('<h1>Home</h1><p>Please <a href="/register">register</a></p><p>Please <a href="/login">login</a></p>')
 
-# app.get "/", (req, res, next) ->
-  # console.log "must be logged in :SHRUG"
-
 app.get '/login', (req, res, next) ->
   form = '<h1>Login Page</h1><form method="POST" action="/login">\
   Enter Username:<br><input type="text" name="username">\
@@ -54,7 +53,7 @@ app.get '/login', (req, res, next) ->
   <br><br><input type="submit" value="Submit"></form>'
   res.send(form)
 
-app.post '/login', passport.authenticate('local', { failureRedirect: '/login-failure', successRedirect: '/' }), (err, req, res, next) ->
+app.post '/login', passport.authenticate('local', {successRedirect: '/' }), (err, req, res, next) ->
   if err then next(err)
 
 
@@ -67,18 +66,25 @@ app.get '/register', (req, res, next) ->
 
 
 app.post '/register', (req, res, next) ->
-  saltHash = genPassword(req.body.password)
+  return next("No Username/andOr/Password provided") unless req.body.username and req.body.password
 
-  salt = saltHash.salt
-  hash = saltHash.hash
+  user = await User.findOne({username: req.body.username})
+  console.log "found User:", user
 
-  newUser = new User
-    username: req.body.username,
-    hash: hash,
-    salt: salt
+  if user
+    res.redirect '/login'
+  else
+    newUser = new User
+      username: req.body.username
 
-  newUser.save().then((user) -> console.log(user))
-  res.redirect('/login')
+    newUser.setPassword req.body.password, (err, data, cb) ->
+      console.log "err", err
+      console.log "data: ", data
+      console.log "newUser: ", newUser
+      newUser.save()
+        .then(res.redirect '/login')
+    #
+    # ).save().then((user) -> console.log(user))
 
 # // Visiting this route logs the user out
 app.get '/logout', (req, res, next) =>
