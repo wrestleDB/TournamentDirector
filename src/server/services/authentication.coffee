@@ -15,29 +15,20 @@ class Authentication
 
   authStrategy: ->
     new LocalStrategy (username, password, next) ->
-      console.log "username: ", username
-      console.log "password: ", password
       username = username?.toLowerCase().trim()
-      return next(null, false) unless username
-      # User.findOne {}, (err, user) ->
+      return next(null, false) unless (username and password)
       User.findOne {username: username}, (err, user) ->
-        console.log "User Found: ", user
-        console.log "password match: ", password is user.password
         return next(err) if err
-        return next(null, false) unless user
-        return next(null, false) unless password is user.password
-        console.log "got Here!!"
-        return next(null, user)
+        user.checkPassword password, (err, passwordIsVerified) ->
+          return next(null, user) if passwordIsVerified
+          return next('Password is incorrect')
 
   deserializeUser: (username, next) ->
-    console.log "deserializeUser", username
     User.findOne {username: username} , (err, user) ->
-      console.log "err"
       return next(err) if err
       return next(null, user)
 
   serializeUser: (user, next) ->
-    console.log "serializeUser: ", user.username
     return next(null, user.username)
 
   # Middleware -----------------------------------------------------------------
