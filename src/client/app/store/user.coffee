@@ -4,14 +4,20 @@ authenticationURL = "http://localhost:4001/login"
 
 state =
   currentJWT: ''
+  username: 'aldon.isenberg2@gmail.com'
 
 
 getters =
-  authenticated: (state) => state.currentJWT? and state.currentJWT isnt ''
-  currentJWT: (state) => state.currentJWT
+  authenticated: (state) -> state.currentJWT? and state.currentJWT isnt ''
+  currentJWT: (state) -> state.currentJWT
+  username: (state) -> state.username
 
 actions =
-  checkCreds: ({commit}, creds) =>
+  login: ({commit}, creds) ->
+
+  logout: ({commit}, creds) ->
+
+  checkCreds: ({commit}, creds) ->
     try
       console.log "Checking Creds!!1", JSON.stringify(creds, null, 2)
 
@@ -27,7 +33,7 @@ actions =
     commit('setJWT', "")
 
 mutations =
-  setJWT: (state, jwt) =>
+  setJWT: (state, jwt) ->
     localStorage.setItem('wrestlingCoachToken', jwt)
     state.currentJWT = jwt
 

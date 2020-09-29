@@ -91,7 +91,7 @@ app.get '/logout', (req, res, next) =>
   console.log "before-userContext: ", req.userContext
   authentication.logout req, res, (err) ->
     console.log "after-userContext: ", req.userContext
-    res.redirect('/protected-route')
+    res.redirect('/')
 
 app.get '/login-failure', (req, res, next) ->
   res.send('You entered the wrong password.')
