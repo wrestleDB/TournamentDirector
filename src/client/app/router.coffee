@@ -2,11 +2,9 @@ import axios from 'axios'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import store from './store.coffee'
+import store from './store/index.coffee'
 
 import Home from './pages/Home.vue'
-import Index from './pages/Index.vue'
-import Login from './pages/Login.vue'
 import MyWrestlers from './pages/MyWrestlers.vue'
 import NotFound from './pages/NotFound.vue'
 
@@ -19,22 +17,20 @@ Vue.use VueRouter
 
 router = new VueRouter
   routes: [
-    { path: '/',            name: 'index',       component: Index       }
-    { path: '/home',        name: 'home',        component: Home        }
-    { path: '/login',       name: 'login',       component: Login       }
+    { path: '/',            name: 'home',        component: Home        }
     { path: '/myWrestlers', name: 'myWrestlers', component: MyWrestlers }
     { path: '*',            name: 'notFound',    component: NotFound    }
   ]
 
-router.beforeResolve (to, from, next) ->
-  console.log "\n\n\nto: ", to
-  console.log "\n\n\nfrom: ", from
-  console.log "jwt token: ", store.state.user.currentJwt
-  console.log "localStorage: ", localStorage.getItem('wrestlingCoachToken')
-  console.log "\n\n\nThis: ", store.getters.authenticated
-  switch
-    when to.name in ['home', 'login'] then next()
-    when store.getters.authenticated  then next()
-    else next({name: 'login'})
+# router.beforeResolve (to, from, next) ->
+#   console.log "\n\n\nto: ", to
+#   console.log "\n\n\nfrom: ", from
+#   console.log "jwt token: ", store.state.user.currentJwt
+#   console.log "localStorage: ", localStorage.getItem('wrestlingCoachToken')
+#   console.log "\n\n\nThis: ", store.getters.authenticated
+#   switch
+#     when to.name in ['home', 'login'] then next()
+#     when store.getters.authenticated  then next()
+#     else next({name: 'login'})
 
 export default router

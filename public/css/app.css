@@ -1,0 +1,23 @@
+
+body {
+  background-color: rgb(26, 28, 29);
+}
+
+.wdb-link {
+  color: #98AFBD;
+}
+.wdb-primary {
+  color: #FF7B02;
+}
+.wdb-success {
+  color: #77DB77;
+}
+.wdb-info {
+  color: #83D4ED;
+}
+.wdb-warning {
+  color: #EB7D7A;
+}
+.wdb-danger {
+  color: #FB7676;
+}

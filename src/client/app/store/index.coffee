@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import myWrestlers from './state/myWrestlers.coffee'
-import user from './state/user.coffee'
+import myWrestlers from './myWrestlers.coffee'
+import user from './user.coffee'
 
 Vue.use Vuex
 

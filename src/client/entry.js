@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './app/App.vue'
 import router from './app/router.coffee'
-import store from './app/store.coffee'
+import store from './app/store/index.coffee'
 
 Vue.config.productionTip = false
 

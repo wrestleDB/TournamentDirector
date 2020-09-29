@@ -36,6 +36,29 @@ module.exports = {
         exclude: /\.png?$/
       },
       {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader'
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
+      },
+      {
+        test: /\.png$/,
+        loader: 'file-loader',
+        exclude: /node_modules/,
+        options: {
+          name: '[hash].[ext]'
+        }
+      },
+      {
         test: /\.coffee$/,
         exclude: /node_modules/,
         loader: 'coffee-loader',
