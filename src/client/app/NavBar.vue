@@ -4,7 +4,7 @@
     &nbsp;
     <router-link to="/myWrestlers">My Wrestlers Page</router-link>
     &nbsp;
-    <div>
+    <div class="nav-bar-logout">
       <p class="wdb-primary ">{{username}}</p>
       <button type="submit" @click="logout()">Logout</button>
     </div>
@@ -22,13 +22,12 @@ export default
     logout: ->
       axios.get('/logout')
         # .then(this.$router.push('/'))
-        .then(window.location.reload(true)) # Need to refresh out
-
-
-
+        .then(window.location.reload(true)) # TODO: Get this working - Need to refresh out
 
 </script>
 
-<style>
-
+<style scoped>
+.nav-bar-logout {
+  color: #EB7D7A;
+}
 </style>
