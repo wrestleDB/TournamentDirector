@@ -5,7 +5,8 @@ import VueRouter from 'vue-router'
 import store from './store/index.coffee'
 
 import Home from './pages/Home.vue'
-import MyWrestlers from './pages/MyWrestlers.vue'
+import AddTournament from './pages/AddTournament.vue'
+# import MyWrestlers from './pages/MyWrestlers.vue'
 import NotFound from './pages/NotFound.vue'
 
 
@@ -17,9 +18,10 @@ Vue.use VueRouter
 
 router = new VueRouter
   routes: [
-    { path: '/',            name: 'home',        component: Home        }
-    { path: '/myWrestlers', name: 'myWrestlers', component: MyWrestlers }
-    { path: '*',            name: 'notFound',    component: NotFound    }
+    { path: '/',              name: 'home',          component: Home        }
+    { path: '/addTournament', name: 'addTournament', component: AddTournament }
+    # { path: '/myWrestlers', name: 'myWrestlers', component: MyWrestlers }
+    { path: '*',              name: 'notFound',    component: NotFound    }
   ]
 
 # router.beforeResolve (to, from, next) ->

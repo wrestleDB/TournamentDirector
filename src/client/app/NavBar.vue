@@ -2,8 +2,8 @@
   <nav class="navbar">
     <ul class="navbar-nav">
       <li class="logo">
-        <a href="#" class="nav-link">
-          <span class="link-text logo-text">Fireship</span>
+        <router-link to="/" class="nav-link">
+          <span class="link-text logo-text">WrestleDB</span>
           <svg
             aria-hidden="true"
             focusable="false"
@@ -27,12 +27,12 @@
               ></path>
             </g>
           </svg>
-        </a>
+        </router-link>
       </li>
 
       <li class="nav-item">
-        <a href="#" class="nav-link">
-          <svg
+        <router-link to="/addTournament" class="nav-link">
+          <!-- <svg
             aria-hidden="true"
             focusable="false"
             data-prefix="fad"
@@ -54,9 +54,10 @@
                 class="fa-primary"
               ></path>
             </g>
-          </svg>
-          <span class="link-text">Cats</span>
-        </a>
+          </svg> -->
+          <i class="fad fa-calendar-plus fa-w-20 fa-2x"></i>
+          <span class="link-text">Add&nbsp;Tournament</span>
+        </router-link>
       </li>
 
       <li class="nav-item">
