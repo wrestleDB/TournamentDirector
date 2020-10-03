@@ -17,4 +17,5 @@ export default
 
 <style>
 @import '../../../public/css/app.css';
+@import '../../../public/fontawesome/css/all.css';
 </style>
