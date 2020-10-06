@@ -1,13 +1,17 @@
-import axios from 'axios'
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import axios         from 'axios'
+import Vue           from 'vue'
+import VueRouter     from 'vue-router'
 
-import store from './store/index.coffee'
+import store         from './store/index.coffee'
 
-import Home from './pages/Home.vue'
+import Home          from './pages/Home.vue'
 import AddTournament from './pages/AddTournament.vue'
-# import MyWrestlers from './pages/MyWrestlers.vue'
-import NotFound from './pages/NotFound.vue'
+import Tournaments   from './pages/Tournaments.vue'
+import Locations     from './pages/Locations.vue'
+import Teams         from './pages/Teams.vue'
+import Wrestlers     from './pages/Wrestlers.vue'
+import UserAdmin     from './pages/UserAdmin.vue'
+import NotFound      from './pages/NotFound.vue'
 
 
 # https://router.vuejs.org/guide/advanced/navigation-guards.html#global-before-guards
@@ -20,7 +24,11 @@ router = new VueRouter
   routes: [
     { path: '/',              name: 'home',          component: Home        }
     { path: '/addTournament', name: 'addTournament', component: AddTournament }
-    # { path: '/myWrestlers', name: 'myWrestlers', component: MyWrestlers }
+    { path: '/allTournaments', name: 'allTournaments', component: Tournaments }
+    { path: '/allLocations', name: 'allLocations', component: Locations }
+    { path: '/allTeams', name: 'allTeams', component: Teams }
+    { path: '/allWrestlers',  name: 'allWrestlers', component: Wrestlers }
+    { path: '/userAdminPage',  name: 'userAdminPage', component: UserAdmin }
     { path: '*',              name: 'notFound',    component: NotFound    }
   ]
 
