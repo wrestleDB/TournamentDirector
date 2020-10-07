@@ -10,12 +10,8 @@ import Wrestlers     from './app/pages/Wrestlers.vue'
 import UserAdmin     from './app/pages/UserAdmin.vue'
 import NotFound      from './app/pages/NotFound.vue'
 
-
-# https://router.vuejs.org/guide/advanced/navigation-guards.html#global-before-guards
-
-#TODO Migration Guide: https://next.router.vuejs.org/guide/migration/#new-features
-
-# https://next.router.vuejs.org/
+# Migration Guide: https://next.router.vuejs.org/guide/migration/#new-features
+# TODO # https://router.vuejs.org/guide/advanced/navigation-guards.html#global-before-guards
 
 router = createRouter({
   history: createWebHistory()
@@ -30,6 +26,5 @@ router = createRouter({
     { path: '/:pathMatch(.*)*', name: 'not-found',       component: NotFound }
   ]
 })
-
 
 export default router
