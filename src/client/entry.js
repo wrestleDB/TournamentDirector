@@ -1,12 +1,12 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './app/App.vue'
 import router from './app/router.coffee'
-import store from './app/store/index.coffee'
+import {store} from './app/store.coffee'
 
-Vue.config.productionTip = false
+// Vue3 migration guide https://v3.vuejs.org/guide/migration/global-api.html#a-new-global-api-createapp
+app = createApp(App)
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+app.use(router)
+app.use(store)
+
+app.mount('#app')

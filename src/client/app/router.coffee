@@ -1,8 +1,5 @@
-import axios         from 'axios'
-import Vue           from 'vue'
-import VueRouter     from 'vue-router'
-
-import store         from './store/index.coffee'
+import { createRouter, createWebHistory } from 'vue-router'
+# ^there is also createWebHashHistory and createMemoryHistory
 
 import Home          from './pages/Home.vue'
 import AddTournament from './pages/AddTournament.vue'
@@ -16,31 +13,20 @@ import NotFound      from './pages/NotFound.vue'
 
 # https://router.vuejs.org/guide/advanced/navigation-guards.html#global-before-guards
 
-Vue.use VueRouter
+#TODO Migration Guide: https://next.router.vuejs.org/guide/migration/#new-features
 
-# axios.defaults.baseUrl = process.env.WRESTLEDB_SERVER or "http://localhost:8081"
-
-router = new VueRouter
+router = createRouter({
+  history: createWebHistory()
   routes: [
-    { path: '/',              name: 'home',          component: Home        }
-    { path: '/addTournament', name: 'addTournament', component: AddTournament }
-    { path: '/allTournaments', name: 'allTournaments', component: Tournaments }
-    { path: '/allLocations', name: 'allLocations', component: Locations }
-    { path: '/allTeams', name: 'allTeams', component: Teams }
-    { path: '/allWrestlers',  name: 'allWrestlers', component: Wrestlers }
-    { path: '/userAdminPage',  name: 'userAdminPage', component: UserAdmin }
-    { path: '*',              name: 'notFound',    component: NotFound    }
+    { path: '/',                name: 'home',            component: Home        }
+    { path: '/addTournament',   name: 'add-tournament',  component: AddTournament }
+    { path: '/allTournaments',  name: 'all-tournaments', component: Tournaments }
+    { path: '/allLocations',    name: 'all-locations',   component: Locations }
+    { path: '/allTeams',        name: 'all-teams',       component: Teams }
+    { path: '/allWrestlers',    name: 'all-wrestlers',   component: Wrestlers }
+    { path: '/userAdminPage',   name: 'user-admin-page', component: UserAdmin }
+    { path: '/:pathMatch(.*)*', name: 'not-found',       component: NotFound    }
   ]
-
-# router.beforeResolve (to, from, next) ->
-#   console.log "\n\n\nto: ", to
-#   console.log "\n\n\nfrom: ", from
-#   console.log "jwt token: ", store.state.user.currentJwt
-#   console.log "localStorage: ", localStorage.getItem('wrestlingCoachToken')
-#   console.log "\n\n\nThis: ", store.getters.authenticated
-#   switch
-#     when to.name in ['home', 'login'] then next()
-#     when store.getters.authenticated  then next()
-#     else next({name: 'login'})
+})
 
 export default router

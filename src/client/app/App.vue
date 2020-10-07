@@ -5,13 +5,16 @@
   </div>
 </template>
 
-<script lang="coffee">
+<script>
 import NavBar from './NavBar.vue'
 
-export default
-  name: 'app'
-  components:
+export default {
+  name: 'app',
+  components: {
     'nav-bar': NavBar
+  }
+}
+
 
 </script>
 

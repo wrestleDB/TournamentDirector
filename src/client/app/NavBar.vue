@@ -153,18 +153,18 @@
   </nav>
 </template>
 
-<script lang="coffee">
+<script>
 import { mapGetters, mapActions }  from 'vuex'
 import axios from 'axios'
 
-export default
-  name: 'navbar'
-  computed: mapGetters ['username']
-  methods:
-    logout: ->
-      axios.get('/logout')
-        # .then(this.$router.push('/'))
-        .then(window.location.reload(true)) # TODO: Get this working - Need to refresh out
+export default {
+  name: 'navbar',
+  computed: mapGetters(['username']),
+  methods: {
+    logout: () => axios.get('/logout').then(window.location.reload(true))
+  }
+}
+
 
 </script>
 

@@ -27,6 +27,7 @@
   "dependencies": {
     "@babel/runtime": "^7.10.2",
     "@babel/runtime-corejs3": "^7.10.2",
+    "@vue/compiler-sfc": "^3.0.0",
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
     "connect-redis": "^5.0.0",
@@ -39,8 +40,8 @@
     "passport": "0.3.2",
     "passport-local": "1.0.0",
     "redis": "^3.0.2",
-    "vue-router": "^3.3.4",
-    "vuex": "^3.4.0"
+    "vue-router": "^4.0.0-beta.13",
+    "vuex": "^4.0.0-beta.4"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
@@ -56,10 +57,10 @@
     "html-webpack-plugin": "^4.3.0",
     "node-dev": "^5.2.0",
     "sass-loader": "^10.0.2",
-    "vue": "^2.6.11",
-    "vue-loader": "^15.9.2",
+    "vue": "^3.0.0",
+    "vue-loader": "^16.0.0-beta.8",
     "vue-style-loader": "^4.1.2",
-    "vue-template-compiler": "^2.6.11",
+    "vue-template-compiler": "^2.6.12",
     "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3",
     "webpack-dev-middleware": "^3.6.0",
