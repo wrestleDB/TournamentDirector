@@ -7,6 +7,7 @@ module.exports = merge(config, {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: 'dist',
+    historyApiFallback: true,
     open: false, // This will auto-open the project in default browser, could also add --open to npm script to make this work
     hot: true, // Hot reloading
     overlay: true,

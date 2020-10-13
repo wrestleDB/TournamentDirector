@@ -8,9 +8,13 @@
 </template>
 
 <script>
-export default {
-
-}
+// import axios from 'axios'
+// export default {
+//   name: "teamList",
+//   methods: {
+//     logout: () => axios.get('/logout').then(window.location.reload(true))
+//   }
+// }
 </script>
 
 <style>

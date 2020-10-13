@@ -4,6 +4,7 @@ expressSession = require 'express-session'
 helmet         = require 'helmet'
 passport       = require 'passport'
 path           = require 'path'
+cors           = require 'cors'
 
 User           = require './models/user'
 
@@ -104,13 +105,6 @@ app.use (req, res, next) ->
   return res.redirect('/') unless req.userContext
   next()
 
-
-genPassword = (password) ->
-  salt    = "salt"#crypto.randomBytes(32).toString('hex');
-  genHash = "genHash"#crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
-  return
-    salt: salt
-    hash: genHash
 ################################################################
 # Startup
 ################################################################
