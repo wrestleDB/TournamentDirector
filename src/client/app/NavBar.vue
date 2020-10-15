@@ -72,7 +72,14 @@
         </router-link>
       </li>
 
-      <li class="nav-item" id="themeButton" @click="toggleTheme">
+      <li class="nav-item">
+        <a href="http://localhost:4001/logout" class="nav-link">
+        <i class="fad fa-power-off fa-2x"></i>
+        <span class="link-text">Logout</span>
+        </a>
+      </li>
+
+      <!-- <li class="nav-item" id="themeButton" @click="toggleTheme">
         <a href="#" class="nav-link">
           <svg
             class="theme-icon svg-inline--fa famoon-stars fa-w-16 fa-7x"
@@ -148,7 +155,7 @@
           </svg>
           <span class="link-text">Themify</span>
         </a>
-      </li>
+      </li> -->
     </ul>
   </nav>
 </template>

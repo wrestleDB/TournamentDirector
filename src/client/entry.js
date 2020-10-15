@@ -4,7 +4,7 @@ import router        from './router.coffee'
 import store         from './store.coffee'
 
 // Vue3 migration guide https://v3.vuejs.org/guide/migration/global-api.html#a-new-global-api-createapp
-app = createApp(App)
+const app = createApp(App)
 
 app.use(router)
 app.use(store)

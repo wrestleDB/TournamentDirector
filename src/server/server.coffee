@@ -1,4 +1,5 @@
 {createServer} = require 'http'
+bent           = require 'bent'
 express        = require 'express'
 expressSession = require 'express-session'
 helmet         = require 'helmet'
@@ -6,17 +7,12 @@ passport       = require 'passport'
 path           = require 'path'
 cors           = require 'cors'
 
-User           = require './models/user'
-
 authentication = require './services/authentication'
-database       = require "./services/database"
+hasher         = require './services/hasher'
 sessionStore   = require './services/session-store'
 
 app    = express()
 server = createServer(app)
-
-# Connect Database
-database.connect()
 
 console.log "EXPRESS - Setting up configuration"
 
@@ -67,25 +63,22 @@ app.get '/register', (req, res, next) ->
 
 
 app.post '/register', (req, res, next) ->
-  return next("No Username/andOr/Password provided") unless req.body.username and req.body.password
+  return next("No Username/andOr/Password provided") unless req.body?.username and req.body?.password
 
-  user = await User.findOne({username: req.body.username})
-  console.log "found User:", user
+  {username, password} = req.body
 
-  if user
-    res.redirect '/login'
-  else
-    newUser = new User
-      username: req.body.username
+  hasher.hash password, (err, hashedPassword) ->
+    return next(err) if err
 
-    newUser.setPassword req.body.password, (err, data, cb) ->
-      console.log "err", err
-      console.log "data: ", data
-      console.log "newUser: ", newUser
-      newUser.save()
-        .then(res.redirect '/login')
-    #
-    # ).save().then((user) -> console.log(user))
+    try
+      request  = bent('http://localhost:8081/', 'POST', 'json')
+      response = await request('register', {username, hashedPassword})
+      {user, error}  = response
+      return next(error) if error
+      return res.redirect('/login')
+
+    catch error
+      return next(error)
 
 # // Visiting this route logs the user out
 app.get '/logout', (req, res, next) =>

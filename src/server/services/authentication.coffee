@@ -1,6 +1,7 @@
-User          = require '../models/user'
+bent          = require 'bent'
+hasher        = require './hasher'
 passport      = require 'passport'
-LocalStrategy = require('passport-local').Strategy
+Strategy      = require('passport-local').Strategy
 
 class Authentication
 
@@ -14,21 +15,39 @@ class Authentication
     @app.use @setContext
 
   authStrategy: ->
-    new LocalStrategy (username, password, next) ->
+    new Strategy (username, password, next) ->
+      console.log "new Strategy: ", username, "\n", password, "\n"
       username = username?.toLowerCase().trim()
       return next(null, false) unless (username and password)
-      User.findOne {username: username}, (err, user) ->
-        return next(err) if err
-        user.checkPassword password, (err, passwordIsVerified) ->
-          return next(null, user) if passwordIsVerified
-          return next('Password is incorrect')
+
+      try
+        postRequest = bent('http://localhost:8081/', 'POST', 'json')
+        userInfo = await postRequest('login', {username})
+        return next(userInfo.error) if userInfo.error
+
+      catch error
+        return next(error)
+      console.log "USER INFO: ", userInfo
+      hasher.compare password, userInfo.password, (err, passwordMatches) ->
+        console.log "err: ", err
+        console.log "passwordMatches: ", passwordMatches
+        return next("stop here -password invalid-") unless passwordMatches
+        return next(null, userInfo)
+
 
   deserializeUser: (username, next) ->
-    User.findOne {username: username} , (err, user) ->
-      return next(err) if err
+    console.log "deserializeUser: ", username, "\n\n\n\n\n"
+    try
+      getJSON = bent('json')
+      user = await getJSON("http://localhost:8081/user?username=#{username}")
       return next(null, user)
 
+    catch error
+      console.error "ERROR", error
+      return next(false)
+
   serializeUser: (user, next) ->
+    console.log "serializeUser: ", user
     return next(null, user.username)
 
   # Middleware -----------------------------------------------------------------
@@ -36,35 +55,17 @@ class Authentication
     return next() unless req.user
     console.log "setting context: user--> ", req.user
 
-    req.userContext =
-      user: req.user
-      isAdmin: req.user.username is "aldon.isenberg2@gmail.com"
+    if req.user.error
+      req.userContext = {}
+
+    else
+      req.userContext =
+        user: req.user
+        isAdmin: req.user.username is "aldon.isenberg2@gmail.com" # TODO: Implement this
 
     delete req.user
 
     return next()
-
-  # login: (req, res, next) ->
-  #   delete req.session.passport.rootUser if req.session?.passport?.rootUser
-  #   delete req.userContext.rootUser if req.context?.rootUser
-  #   passport.authenticate('local', (err, context, info) ->
-  #     return next(err) if err?
-  #     unless context?.account? and context?.user?
-  #       res.locals.loginResponse =
-  #         success: false
-  #         message: info or '<p>The username or password you entered is incorrect.</p>'
-  #       return next()
-  #     req.login context.user, (err) ->
-  #       return next(err) if err?
-  #       logger.logEventForUser "Logged in", context.account.toEventObj(), context.user, context.account
-  #       req.session.cookie.maxAge = 2592000000 #30*24*60*60*1000 Rememeber 'me' for 30 days
-  #       res.cookie 'landing', landing.signupVariant, {maxAge: 31536000000, httpOnly: false}
-  #       resp = {success: true}
-  #       if req.body.redirectTo
-  #         resp.redirectTo = req.body.redirectTo
-  #       res.locals.loginResponse = resp
-  #       next()
-  #   )(req, res, next)
 
   logout: (req, res, next) ->
     req.logout()
