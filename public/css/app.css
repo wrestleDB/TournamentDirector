@@ -7,6 +7,7 @@
   --bg-primary: rgb(26, 28, 29);
   --bg-secondary: #141418;
   --transition-speed: 600ms;
+  --navbar-margin: 5rem;
 }
 
 body {
@@ -33,8 +34,9 @@ body::-webkit-scrollbar-thumb {
 }
 
 .main {
-  margin-left: 5rem;
+  margin-left: var(--navbar-margin);
   padding: 1rem;
+  transition: margin-left 600ms ease;
 }
 
 .navbar {
@@ -161,12 +163,16 @@ body::-webkit-scrollbar-thumb {
 @media only screen and (min-width: 600px) {
   .navbar {
     top: 0;
-    width: 5rem;
+    width: var(--navbar-margin);
     height: 100vh;
   }
 
   .navbar:hover {
-    width: 18rem;
+    --navbar-margin: 18rem;
+  }
+
+  .navbar:hover ~ .main {
+    --navbar-margin: 18rem;
   }
 
   .navbar:hover .link-text {
