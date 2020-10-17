@@ -37,6 +37,7 @@ app.use(expressSession({
     maxAge: 6048000000 # 70 days
 }))
 
+# Setup Authentication
 authentication.init(app)
 
 app.get "/", (req, res, next) ->
@@ -90,13 +91,13 @@ app.get '/logout', (req, res, next) =>
 app.get '/login-failure', (req, res, next) ->
   res.send('You entered the wrong password.')
 
-app.use(express.static(path.resolve(__dirname, '../../lib/')))
-
 app.use (req, res, next) ->
-  console.log("req.session: ", req.session)
-  console.log("req.userContext: ", req.userContext)
+  # TODO: fix routing for the originalUrl in production, see https://github.com/wrestleDB/TournamentDirector/issues/30
+  console.log("req.originalUrl: ", req.originalUrl)
   return res.redirect('/') unless req.userContext
   next()
+
+app.use(express.static(path.resolve(__dirname, '../../lib/')))
 
 ################################################################
 # Startup
