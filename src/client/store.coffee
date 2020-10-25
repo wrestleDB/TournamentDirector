@@ -40,6 +40,7 @@ getters =
 
 actions =
   addTournament:  ->
+    console.log "Adding Tournament: ", JSON.stringify(@, null, 2)
     tournament = JSON.stringify(@)
     axios.put('http:localhost:8081/tournaments', {tournament})
       .then((a, b, c) ->

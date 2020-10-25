@@ -5,37 +5,39 @@
     <p>Tournament 1 <i class="fad fa-globe-americas"></i></p>
     <p>Tournament 2 <i class="fad fa-lock-alt"></i> (invite only)</p>
     <p>Tournament 3 <i class="fad fa-lock-open-alt"></i> (invite only) (you were invited)</p>
-    <li v-for="tournament in tournaments" :key="tournament._id">
-      <span>Name: {{tournament.name}}</span>
+    <br/>
+    <li v-if="latestTournament.error"> Error: {{latestTournament.error}}</li>
+    <li v-else v-for="tournament in state.tournaments" :key="tournament._id">
+      <span>Name: {{tournament.eventName}}</span>
       <span>, Id: {{tournament._id}}</span>
     </li>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { reactive, computed, onMounted } from 'vue'
+import bent from 'bent'
 
 export default {
-  name     : "tournamentsList",
-  data : () => {
+  name: "tournamentsList",
+  data: () => {
     return {
       tournaments: [{
-        _id: "111",
-        name: "Default1"
-      }, {
-        _id: "112",
-        name: "Default2"
+        error: "No tournaments found"
       }]
     }
   },
+  computed: {
+    latestTournament() {
+      return this.tournaments[0]
+    }
+  },
   methods: {
-    getTournamentList: () => axios.get('http://localhost:8081/tournaments').then(
-      (a, b, c) => {
-        console.log("A: ", a)
-        console.log("B: ", b)
-        console.log("C: ", c)
-      }
-    )
+    getTournamentList: async function () {
+      let getTournaments = bent("json")
+      let tournaments = await getTournaments("http://localhost:8081/tournaments")
+      console.log("TOURNAMNEsT: ", tournaments)
+    }
   }
 }
 </script>
