@@ -51,6 +51,14 @@ module.exports = {
         ]
       },
       {
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'less-loader'
+        ]
+      },
+      {
         test: /\.(png|svg|eot|woff|woff2|ttf)$/,
         loader: 'file-loader',
         exclude: /node_modules/,

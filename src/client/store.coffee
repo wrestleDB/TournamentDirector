@@ -40,13 +40,15 @@ getters =
 
 actions =
   addTournament:  ->
-    tournament = JSON.stringify(@)
-    axios.put('http:localhost:8081/tournaments', {tournament})
-      .then((a, b, c) ->
-        console.log("Add Tournament - A: ", a)
-        console.log("Add Tournament - B: ", b)
-        console.log("Add Tournament - C: ", c)
-      )
+    console.log "Adding Tournament: ", JSON.stringify(@, null, 2)
+    # tournament = JSON.stringify(@)
+    # TODO: insert 'bent' here
+    # axios.put('http:localhost:8081/tournaments', {tournament})
+    #   .then((a, b, c) ->
+    #     console.log("Add Tournament - A: ", a)
+    #     console.log("Add Tournament - B: ", b)
+    #     console.log("Add Tournament - C: ", c)
+    #   )
   validateTournamentData: ->
     return false unless this.eventName
     return true
