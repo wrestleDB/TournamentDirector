@@ -1,7 +1,15 @@
 
 :root {
   font-size: 16px;
-  font-family: 'Open Sans';
+  font-family:'Source Sans Pro',
+  -apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  Roboto,
+  'Helvetica Neue',
+  Arial,
+  sans-serif,
+  'Open Sans';
   --text-primary: #b6b6b6;
   --text-secondary: #ececec;
   --bg-primary: rgb(26, 28, 29);
@@ -132,6 +140,22 @@ body::-webkit-scrollbar-thumb {
 
 .navbar:hover .logo svg {
   transform: rotate(-180deg);
+}
+button {
+  color: black !important;
+  font-size: 16px;
+  text-shadow: 1px 1px 0px #df49a6;
+  box-shadow: 1px 1px 1px #BEE2F9;
+  padding: 10px 25px;
+  border-radius: 10px;
+  border: 0px solid #3866A3;
+  background: #ff7eee;
+  background: linear-gradient(to top, #ff7eee, #df49a6);
+}
+button:hover {
+  color: white !important;
+  background: #df49a6;
+  background: linear-gradient(to top, #df49a6, #ff7eee);
 }
 
 /* Small screens */
