@@ -39,6 +39,22 @@ getters =
   status: (state) -> return state.tournament.status
 
 actions =
+  addEventDate: ({commit}, dateInformation) ->
+    {name, type, date} = dateInformation
+    switch name
+      when "tournamentStartEnd" then switch type
+        when "start" then commit('setTournamentStart', date)
+        when "end"   then commit('setTournamentEnd',   date)
+
+      when "registrationOpenClose" then switch type
+        when "start" then commit('setRegistrationStart',  date)
+        when "end"   then commit('setRegistrationEnd',    date)
+
+
+  addRegistrationDates: ({commit}, registrationDates) ->
+    console.log "registrationDates: ", JSON.stringify(registrationDates, null, 2)
+    commit('setRegistrationDates', registrationDates)
+
   addTournament:  ->
     console.log "Adding Tournament: ", JSON.stringify(@, null, 2)
     # tournament = JSON.stringify(@)
@@ -49,12 +65,29 @@ actions =
     #     console.log("Add Tournament - B: ", b)
     #     console.log("Add Tournament - C: ", c)
     #   )
+
   validateTournamentData: ->
     return false unless this.eventName
     return true
 
 
-mutations = {}
+mutations =
+  setTournamentStart: (state, date) =>
+    console.log "Setting TournamentStart", JSON.stringify(date, null, 2)
+    console.log "State: ", state
+    state.tournament.eventDate.startDate = date
+
+  setTournamentEnd: (state, date) =>
+    console.log "Setting TournamentEnd", JSON.stringify(date, null, 2)
+    state.tournament.eventDate.endDate = date
+
+  setRegistrationStart: (state, date) =>
+    console.log "Setting Registration Start", JSON.stringify(date, null, 2)
+    state.tournament.registration.openDate = date
+
+  setRegistrationEnd: (state, date) =>
+    console.log "Setting Registration Close", JSON.stringify(date, null, 2)
+    state.tournament.registration.closeDate = date
 
 store = createStore({state, getters, actions, mutations})
 

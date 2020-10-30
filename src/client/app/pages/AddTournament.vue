@@ -42,7 +42,9 @@
 
       <div v-show="currentStep === 5">
         <h1>Summary:</h1>
-        <p>{{JSON.stringify(tournament, null, 2)}}</p><br>
+        <p>EventName: {{tournament.name}}</p><br>
+        <p>Bracket Type: {{tournament.bracketType}}</p><br>
+        <p>Tournament: {{tournament}}</p><br>
         <button @click="addTournament()">Create Tournament</button>
       </div>
     </div>
@@ -99,7 +101,7 @@ export default {
       this.currentStep += -1
     },
     goForward() {
-      this.currentStep +=1
+      this.currentStep += 1
     }
   },
   data: () => {

@@ -1,9 +1,9 @@
 <template>
   <div id="date-picker">
-    <!-- <br/>
+    <br/>
     <p>one{{startDate}}</p>
     <p>two{{endDate}}</p>
-    <p>Days: {{days}}</p> -->
+    <p>Days: {{days}}</p>
     <!-- <p>Tournament starts: {{tournamentStart.value}} Tournament Ends: {{tournamentEnd || "___"}}</p> -->
 
     Title: {{title}}
@@ -18,6 +18,7 @@
 
 <script>
 import {reactive, computed, toRefs } from 'vue'
+import { mapGetters, mapActions }  from 'vuex'
 import { DateTime } from 'luxon'
 import DatePickk from 'datepickk'
 
@@ -26,19 +27,14 @@ export default {
     title: String
   },
   setup() {
-    console.log("this: ", this)
     const datePicker = new DatePickk()
 
-    // datePicker.startDate     = DateTime.local()
     datePicker.minDate       = DateTime.local().minus({months:1})
     datePicker.maxDate       = DateTime.local().plus({years:1})
-    // datePicker.currentDate   = DateTime.local()
-    datePicker.maxSelections = 1 // Max number of selected Dates
     datePicker.months        = 1 // number of months to show at a time
     datePicker.title         = "Tournament Start"
     datePicker.button        = "Select"
     datePicker.lang          = "en"
-    // datePicker.weekStart     = ""
     datePicker.range         = true // For Date Range, false for single date
 
     datePicker.onConfirm = function() {
@@ -56,6 +52,32 @@ export default {
     function openDatePicker(){ datePicker.show() }
 
     return {...toRefs(dateSet), openDatePicker}
+  },
+  methods: {
+    ...mapActions(['addEventDate']),
+    setStartDate(date) {
+      console.log("props:", this.$props.title)
+      let dateInformation = {
+        name: this.$props.title,
+        type: 'start',
+        date: date
+      }
+      this.addEventDate(dateInformation)
+    },
+    setEndDate() {
+      console.log("props")
+    }
+  },
+  watch: {
+    startDate: function (to, from) {
+      console.log("before: ", before.toHTTP())
+      console.log("after: ", after.toHTTP())
+      this.setStartDate(to)
+    },
+    endDate: function (to, from) {
+      this.setEndDate(to)
+    }
+
   }
 }
 
