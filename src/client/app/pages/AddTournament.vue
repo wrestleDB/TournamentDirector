@@ -17,27 +17,27 @@
     <hr>
     <div class="regcard">
       <div v-show="currentStep === 1">
-        <p><input v-model="tournament.eventName" placeholder="Tournament Name"/> Tournament name is: {{tournament.eventName || "___"}}</p><br>
-        <p>Tournament starts: {{tournament.eventDate.startDate || "___"}} Tournament ends: {{tournament.eventDate.endDate || "___"}}</p>
+        <p><input v-model="eventName" placeholder="Tournament Name"/> Tournament name is: {{eventName || "___"}}</p><br>
+        <p>Tournament starts: {{eventDate.startDate || "___"}} Tournament ends: {{eventDate.endDate || "___"}}</p>
         <DatePicker title="tournamentStartEnd"/>
       </div>
 
       <div v-show="currentStep === 2">
-        <p><input v-model="tournament.location.address" placeholder="Where"/> Where? {{tournament.location.address || "___"}} TODO: implement google maps</p>
+        <p><input v-model="location.address" placeholder="Where"/> Where? {{location.address || "___"}} TODO: implement google maps</p>
       </div>
 
       <div v-show="currentStep === 3">
-        <p><input v-model="tournament.registration.numberOfMats" placeholder="Number of Mats"/> How Many Mats?  {{tournament.registration.numberOfMats || "___"}}</p><br>
-        <p><input v-model="tournament.registration.minWrestlers" placeholder="Min # of Wrestlers"/> {{tournament.registration.minWrestlers || "___"}} Min # of Wrestlers</p><br>
-        <p><input v-model="tournament.registration.maxWrestlers" placeholder="Max # of Wrestlers"/> {{tournament.registration.maxWrestlers || "___"}} Max # of Wrestlers</p><br>
-        <p><input v-model="tournament.bracketType" placeholder="double-elimination or round-robin"/> Bracket Type: {{tournament.bracketType || "___"}}, TODO: make this dropdown with additional params</p>
+        <p><input v-model="registration.numberOfMats" placeholder="Number of Mats"/> How Many Mats?  {{registration.numberOfMats || "___"}}</p><br>
+        <p><input v-model="registration.minWrestlers" placeholder="Min # of Wrestlers"/> {{registration.minWrestlers || "___"}} Min # of Wrestlers</p><br>
+        <p><input v-model="registration.maxWrestlers" placeholder="Max # of Wrestlers"/> {{registration.maxWrestlers || "___"}} Max # of Wrestlers</p><br>
+        <p><input v-model="bracketType" placeholder="double-elimination or round-robin"/> Bracket Type: {{bracketType || "___"}}, TODO: make this dropdown with additional params</p>
       </div>
 
       <div v-show="currentStep === 4">
-        <p>Registration opens: {{tournament.registration.entryOpenDate || "___"}} Registration closes: {{tournament.registration.entryCloseDate || "___"}}</p><br>
+        <p>Registration opens: {{registration.entryOpenDate || "___"}} Registration closes: {{registration.entryCloseDate || "___"}}</p><br>
         <DatePicker title="registrationOpenClose"/>
-        <p><input v-model="tournament.registration.entryFee" placeholder="How much $"/> Entry Fee Cost is ${{tournament.registration.entryFee || "___"}}</p><br>
-        <p><input v-model="tournament.registration.inviteOnly" placeholder="Invite Only?"/> Invite only? {{tournament.registration.inviteOnly || "___"}} (meaning only certain teams can register)</p>
+        <p><input v-model="registration.entryFee" placeholder="How much $"/> Entry Fee Cost is ${{registration.entryFee || "___"}}</p><br>
+        <p><input v-model="registration.inviteOnly" placeholder="Invite Only?"/> Invite only? {{registration.inviteOnly || "___"}} (meaning only certain teams can register)</p>
       </div>
 
       <div v-show="currentStep === 5">
@@ -75,37 +75,55 @@
 </template>
 
 <script>
-import { mapGetters, mapActions }  from 'vuex'
-import { DateTime } from 'luxon'
+import {reactive, computed, toRefs, ref } from 'vue'
+import {DateTime } from 'luxon'
 import DatePicker from '../components/DatePicker.vue'
 
 export default {
-  name: 'addTournamentPage',
-  computed: {
-    ...mapGetters(['tournament', 'status']),
-    canGoBack() {
-      return this.currentStep > 1
-    },
-    canGoForward() {
-      return this.currentStep < 5
-    }
-  },
-  methods: {
-    ...mapActions(['addTournament', 'validateTournamentData']),
-    getGoogleMapsAPI() {
-      console.log("getGoogleAPI")
-    },
-    goBack() {
-      this.currentStep += -1
-    },
-    goForward() {
-      this.currentStep +=1
-    }
-  },
-  data: () => {
-    return {
-      currentStep : 1,
-    }
+  setup() {
+    const tournament = reactive({
+      eventName      : "",
+      status         : "new", // ["new", "step1", "step2", "complete"]
+      bracketType    : "double-elimination",
+      numberOfMats   : "",
+      eventDate      : {
+        startDate: "",
+        endDate  : ""
+      },
+      location: {
+        address    : "",
+        address2   : "",
+        city       : "",
+        state      : "",
+        postalCode : "",
+        country    : "US",
+        lat        : 0,
+        lng        : 0,
+        timezone   : ""
+      },
+      registration: {
+        numberOfMats   : "",
+        entryFee       : "",
+        inviteOnly     : "",
+        openDate       : "",
+        closeDate      : "",
+        minWrestlers   : "",
+        maxWrestlers   : "",
+        earlyDiscount  : "",
+        earlyOpenDate  : "",
+        earlyCloseDate : ""
+      }
+    })
+
+    const currentStep = ref(1)
+
+    const canGoBack    = computed(() => currentStep.value > 1)
+    const canGoForward = computed(() => currentStep.value < 5)
+
+    const goForward = () => {currentStep.value++}
+    const goBack    = () => {currentStep.value--}
+
+    return {...toRefs(tournament), currentStep, canGoBack, canGoForward, goForward, goBack}
   },
   components: {
     DatePicker
