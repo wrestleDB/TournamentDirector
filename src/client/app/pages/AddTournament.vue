@@ -19,7 +19,7 @@
       <div v-show="currentStep === 1">
         <p><input v-model="tournament.eventName" placeholder="Tournament Name"/> Tournament name is: {{tournament.eventName || "___"}}</p><br>
         <p>Tournament starts: {{tournament.eventDate.startDate || "___"}} Tournament ends: {{tournament.eventDate.endDate || "___"}}</p>
-        <DatePicker title="tournamentStartEnd"/>
+        <DatePicker title="tournament" v-bind:tournament-dates="Testing" />
       </div>
 
       <div v-show="currentStep === 2">
@@ -35,7 +35,7 @@
 
       <div v-show="currentStep === 4">
         <p>Registration opens: {{tournament.registration.entryOpenDate || "___"}} Registration closes: {{tournament.registration.entryCloseDate || "___"}}</p><br>
-        <DatePicker title="registrationOpenClose"/>
+        <DatePicker title="registration"/>
         <p><input v-model="tournament.registration.entryFee" placeholder="How much $"/> Entry Fee Cost is ${{tournament.registration.entryFee || "___"}}</p><br>
         <p><input v-model="tournament.registration.inviteOnly" placeholder="Invite Only?"/> Invite only? {{tournament.registration.inviteOnly || "___"}} (meaning only certain teams can register)</p>
       </div>
