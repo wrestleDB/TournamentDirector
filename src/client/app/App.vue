@@ -14,7 +14,6 @@ export default {
     'nav-bar': NavBar
   }
 }
-
 </script>
 
 <style>
