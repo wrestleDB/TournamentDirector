@@ -42,7 +42,12 @@
 
       <div v-show="currentStep === 5">
         <h1>Summary:</h1>
-        <p>{{JSON.stringify(tournament, null, 2)}}</p><br>
+        <p>eventName: {{eventName}}</p><br>
+        <p>bracketType: {{bracketType}}</p><br>
+        <p>numberOfMats: {{numberOfMats}}</p><br>
+        <p>eventDate: {{eventDate}}</p><br>
+        <p>location: {{location}}</p><br>
+        <p>registration: {{registration}}</p><br>
         <button @click="addTournament()">Create Tournament</button>
       </div>
     </div>
@@ -77,7 +82,6 @@
 <script>
 import {reactive, computed, toRefs, ref } from 'vue'
 import {DateTime } from 'luxon'
-import DatePicker from '../components/DatePicker.vue'
 
 export default {
   setup() {
@@ -124,9 +128,6 @@ export default {
     const goBack    = () => {currentStep.value--}
 
     return {...toRefs(tournament), currentStep, canGoBack, canGoForward, goForward, goBack}
-  },
-  components: {
-    DatePicker
   }
 }
 </script>
