@@ -20,7 +20,7 @@
         <p><input v-model="eventName" placeholder="Tournament Name"/> Tournament name is: {{eventName}}</p><br>
 
         <div>
-          <span >Select Date: {{eventDate.startDate?.toHTTP()}}</span>
+          <span>Select Date: {{eventDate.startDate?.toHTTP()}}</span>
           <DatePicker
             title="tournamentStart"
             v-model="eventDate.startDate"/>
