@@ -17,13 +17,24 @@
     <hr>
     <div class="regcard">
       <div v-show="currentStep === 1">
-        <p><input v-model="eventName" placeholder="Tournament Name"/> Tournament name is: {{eventName || "___"}}</p><br>
-        <p>Tournament starts: {{eventDate.startDate || "___"}} Tournament ends: {{eventDate.endDate || "___"}}</p>
-        <DatePicker title="tournamentStartEnd"/>
+        <p><input v-model="eventName" placeholder="Tournament Name"/> Tournament name is: {{eventName}}</p><br>
+
+        <div>
+          <span >Select Date: {{eventDate.startDate?.toHTTP()}}</span>
+          <DatePicker
+            title="tournamentStart"
+            v-model="eventDate.startDate"/>
+          <span> ^^^^ Click Here</span>
+        </div>
+
+
       </div>
 
       <div v-show="currentStep === 2">
         <p><input v-model="location.address" placeholder="Where"/> Where? {{location.address || "___"}} TODO: implement google maps</p>
+        <p><input v-model="location.postalCode" placeholder="Postal Code"/> PostalCode? {{location.postalCode || "___"}}</p>
+        <p><input v-model="location.city" placeholder="City"/> City? {{location.city || "___"}} </p>
+        <p><input v-model="location.state" placeholder="State"/> State? {{location.State || "___"}} </p>
       </div>
 
       <div v-show="currentStep === 3">
@@ -35,7 +46,7 @@
 
       <div v-show="currentStep === 4">
         <p>Registration opens: {{registration.entryOpenDate || "___"}} Registration closes: {{registration.entryCloseDate || "___"}}</p><br>
-        <DatePicker title="registrationOpenClose"/>
+        <!-- <DatePicker title="registrationOpenClose"/> -->
         <p><input v-model="registration.entryFee" placeholder="How much $"/> Entry Fee Cost is ${{registration.entryFee || "___"}}</p><br>
         <p><input v-model="registration.inviteOnly" placeholder="Invite Only?"/> Invite only? {{registration.inviteOnly || "___"}} (meaning only certain teams can register)</p>
       </div>
@@ -81,7 +92,7 @@
 
 <script>
 import {reactive, computed, toRefs, ref } from 'vue'
-import {DateTime } from 'luxon'
+import {DateTime} from 'luxon'
 
 export default {
   setup() {
@@ -91,8 +102,8 @@ export default {
       bracketType    : "double-elimination",
       numberOfMats   : "",
       eventDate      : {
-        startDate: "",
-        endDate  : ""
+        startDate: null,
+        endDate  : null,
       },
       location: {
         address    : "",
@@ -127,7 +138,9 @@ export default {
     const goForward = () => {currentStep.value++}
     const goBack    = () => {currentStep.value--}
 
-    return {...toRefs(tournament), currentStep, canGoBack, canGoForward, goForward, goBack}
+    const setTournamentDates = () => {console.log("Setting Tournament Dates Function")}
+
+    return {...toRefs(tournament), currentStep, canGoBack, canGoForward, goForward, goBack, setTournamentDates}
   }
 }
 </script>
@@ -194,4 +207,14 @@ export default {
   background-color: #1bb630;
   transition-timing-function: linear;
 }
+.container{
+  display: flex;
+}
+.fixed{
+  width: 30px;
+}
+.flex-item{
+  flex-grow: 1;
+}
+
 </style>
