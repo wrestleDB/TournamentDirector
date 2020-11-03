@@ -35,7 +35,11 @@
         <InputField v-model="registration.numberOfMats" label="# of Mats"/><br>
         <InputField v-model="registration.minWrestlers" label="Min # of Wrestlers"/><br>
         <InputField v-model="registration.maxWrestlers" label="Max # of wrestlers"/><br>
-        <InputField v-model="bracketType" label="Bracket Type"/><br>
+        <DropDown
+          v-bind:options="bracketTypes"
+          v-model="bracketType"
+          label="Bracket Type"
+        />
       </div>
 
       <div v-show="currentStep === 4">
@@ -88,15 +92,15 @@
 </template>
 
 <script>
-import {reactive, computed, toRefs, ref } from 'vue'
-import {DateTime} from 'luxon'
 import bent from 'bent'
+import {DateTime} from 'luxon'
+import {reactive, computed, toRefs, ref } from 'vue'
+import {bracketTypes} from '../helpers/constants'
 
 export default {
   setup() {
     const tournament = reactive({
       eventName      : "",
-      status         : "new", // ["new", "step1", "step2", "complete"]
       bracketType    : "double-elimination",
       numberOfMats   : "",
       eventDate      : {
@@ -143,7 +147,7 @@ export default {
     const goForward = () => {currentStep.value++}
     const goBack    = () => {currentStep.value--}
 
-    return {...toRefs(tournament), addTournament, currentStep, canGoBack, canGoForward, goForward, goBack}
+    return {...toRefs(tournament),bracketTypes, addTournament, currentStep, canGoBack, canGoForward, goForward, goBack}
   }
 }
 </script>

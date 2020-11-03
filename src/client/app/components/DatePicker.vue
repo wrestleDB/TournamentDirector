@@ -1,7 +1,6 @@
 <template>
   <div class="date-picker">
     <i class="fad fa-calendar-week fa-2x" @click="openDatePicker()"></i>
-    <!-- <input @click="openDatePicker()" placeholder="Select Dates" /> -->
   </div>
 </template>
 
