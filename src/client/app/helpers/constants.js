@@ -1,0 +1,1 @@
+export let bracketTypes = ["double-elimination", "round-robin"]
