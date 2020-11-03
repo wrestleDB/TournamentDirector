@@ -17,38 +17,36 @@
     <hr>
     <div class="regcard">
       <div v-show="currentStep === 1">
-        <p><input v-model="eventName" placeholder="Tournament Name"/> Tournament name is: {{eventName}}</p><br>
+        <InputField v-model="eventName" label="Tournament Name"/>
 
-        <div>
-          <span>Select Date: {{eventDate.startDate?.toHTTP()}}</span>
-          <DatePicker
-            title="tournamentStart"
-            v-model="eventDate.startDate"/>
-          <span> ^^^^ Click Here</span>
-        </div>
-
-
+        <DatePicker
+          title="tournamentStart"
+          v-model="eventDate.startDate"
+        /><span> ^^^^ Select Start Date: {{eventDate.startDate?.toHTTP()}}</span>
       </div>
 
       <div v-show="currentStep === 2">
-        <p><input v-model="location.address" placeholder="Where"/> Where? {{location.address || "___"}} TODO: implement google maps</p>
-        <p><input v-model="location.postalCode" placeholder="Postal Code"/> PostalCode? {{location.postalCode || "___"}}</p>
-        <p><input v-model="location.city" placeholder="City"/> City? {{location.city || "___"}} </p>
-        <p><input v-model="location.state" placeholder="State"/> State? {{location.State || "___"}} </p>
+        <InputField v-model="location.address" label="Address"/><br>
+        <InputField v-model="location.postalCode" label="Postal Code"/><br>
+        <InputField v-model="location.city" label="City"/><br>
+        <InputField v-model="location.state" label="State"/><br>
       </div>
 
       <div v-show="currentStep === 3">
-        <p><input v-model="registration.numberOfMats" placeholder="Number of Mats"/> How Many Mats?  {{registration.numberOfMats || "___"}}</p><br>
-        <p><input v-model="registration.minWrestlers" placeholder="Min # of Wrestlers"/> {{registration.minWrestlers || "___"}} Min # of Wrestlers</p><br>
-        <p><input v-model="registration.maxWrestlers" placeholder="Max # of Wrestlers"/> {{registration.maxWrestlers || "___"}} Max # of Wrestlers</p><br>
-        <p><input v-model="bracketType" placeholder="double-elimination or round-robin"/> Bracket Type: {{bracketType || "___"}}, TODO: make this dropdown with additional params</p>
+        <InputField v-model="registration.numberOfMat" label="# of Mats"/><br>
+        <InputField v-model="registration.minWrestlers" label="Min # of Wrestlers"/><br>
+        <InputField v-model="registration.maxWrestlers" label="Max # of wrestlers"/><br>
+        <InputField v-model="bracketType" label="Bracket Type"/><br>
       </div>
 
       <div v-show="currentStep === 4">
-        <p>Registration opens: {{registration.entryOpenDate || "___"}} Registration closes: {{registration.entryCloseDate || "___"}}</p><br>
-        <!-- <DatePicker title="registrationOpenClose"/> -->
-        <p><input v-model="registration.entryFee" placeholder="How much $"/> Entry Fee Cost is ${{registration.entryFee || "___"}}</p><br>
-        <p><input v-model="registration.inviteOnly" placeholder="Invite Only?"/> Invite only? {{registration.inviteOnly || "___"}} (meaning only certain teams can register)</p>
+        <DatePicker
+          title="registrationStart"
+          v-model="registration.entryOpenDate"
+        /><span> ^^^^ Select Registration Date: {{registration.entryOpenDate?.toHTTP()}}</span><br>
+
+        <InputField v-model="registration.entryFee" label="Entry Fee $$"/><br>
+        <InputField v-model="registration.inviteOnly" label="Invite Only?"/><br>
       </div>
 
       <div v-show="currentStep === 5">
@@ -63,7 +61,7 @@
       </div>
     </div>
     <hr>
-    <div v-show="true" style="text-align: center">
+      <div v-show="true" style="text-align: center">
         <div>
           <button v-if="canGoBack" @click="goBack">
             <i class="fad fa-arrow-to-left"></i>
@@ -82,10 +80,10 @@
           </button>
 
           <button v-else disabled hidden>
-                End
+            End
           </button>
         </div>
-    </div>
+      </div>
     <hr>
   </div>
 </template>
@@ -93,6 +91,7 @@
 <script>
 import {reactive, computed, toRefs, ref } from 'vue'
 import {DateTime} from 'luxon'
+import bent from 'bent'
 
 export default {
   setup() {
@@ -130,6 +129,13 @@ export default {
       }
     })
 
+    const addTournament = async function () {
+      console.log("Adding Tournament")
+      let putRequest = bent('http://localhost:8081/', 'PUT', 'json')
+      let response = await putRequest('tournaments', tournament)
+      console.log("Response: ", response)
+    }
+
     const currentStep = ref(1)
 
     const canGoBack    = computed(() => currentStep.value > 1)
@@ -138,9 +144,7 @@ export default {
     const goForward = () => {currentStep.value++}
     const goBack    = () => {currentStep.value--}
 
-    const setTournamentDates = () => {console.log("Setting Tournament Dates Function")}
-
-    return {...toRefs(tournament), currentStep, canGoBack, canGoForward, goForward, goBack, setTournamentDates}
+    return {...toRefs(tournament), addTournament, currentStep, canGoBack, canGoForward, goForward, goBack}
   }
 }
 </script>
