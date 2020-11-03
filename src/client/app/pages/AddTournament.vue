@@ -4,16 +4,15 @@
       <i class="fad fa-home-lg"></i> Add Tournament
     </h1>
       <div class="container-progressbar">
-          <ul class="progressbar">
-            <li v-bind:class="{active: currentStep > 0}">Name/Date</li>
-            <li v-bind:class="{active: currentStep > 1}">Location</li>
-            <li v-bind:class="{active: currentStep > 2}">Details</li>
-            <li v-bind:class="{active: currentStep > 3}">Registration</li>
-            <li v-bind:class="{active: currentStep > 4}">Finished</li>
-          </ul>
+        <ul class="progressbar">
+          <li v-bind:class="{active: currentStep > 0}">Name/Date</li>
+          <li v-bind:class="{active: currentStep > 1}">Location</li>
+          <li v-bind:class="{active: currentStep > 2}">Details</li>
+          <li v-bind:class="{active: currentStep > 3}">Registration</li>
+          <li v-bind:class="{active: currentStep > 4}">Finished</li>
+        </ul>
       </div>
     <br>
-    <hr>
     <hr>
     <div class="regcard">
       <div v-show="currentStep === 1">
@@ -33,7 +32,7 @@
       </div>
 
       <div v-show="currentStep === 3">
-        <InputField v-model="registration.numberOfMat" label="# of Mats"/><br>
+        <InputField v-model="registration.numberOfMats" label="# of Mats"/><br>
         <InputField v-model="registration.minWrestlers" label="Min # of Wrestlers"/><br>
         <InputField v-model="registration.maxWrestlers" label="Max # of wrestlers"/><br>
         <InputField v-model="bracketType" label="Bracket Type"/><br>
