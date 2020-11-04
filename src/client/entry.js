@@ -3,8 +3,8 @@ import App           from './app/App.vue'
 import DatePicker    from './app/components/DatePicker.vue'
 import DropDown      from './app/components/DropDown.vue'
 import InputField    from './app/components/InputField.vue'
-import router        from './router.coffee'
-import store         from './store.coffee'
+import router        from './router'
+import store         from './store'
 
 const app = createApp(App)
 
