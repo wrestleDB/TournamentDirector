@@ -1,6 +1,6 @@
 <template>
   <label v-if="label">{{ label }}: </label>
-  <input
+  <input class="input"
     v-bind="$attrs"
     v-bind:value="modelValue"
     v-bind:placeholder="label"
@@ -22,3 +22,14 @@ export default {
   }
 }
 </script>
+<style scoped>
+.input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <label v-if="label">{{ label }}</label>
-  <select
+  <select class="input"
     :value="modelValue"
     v-bind="{
       ...$attrs,
@@ -34,3 +34,14 @@ export default {
   }
 }
 </script>
+<style scoped>
+.input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+</style>
