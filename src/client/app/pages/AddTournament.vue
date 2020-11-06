@@ -63,8 +63,8 @@
         <p>Bracket Type: {{bracketType}}</p>
         <p>Number Of Mats: {{numberOfMats}}</p><br>
         <p>Event Date: {{eventDate}}</p>
-        <p>Location: {{location}}</p><br>
-        <p>registration: {{registration}}</p><br>
+        <p>Location: {{location}}</p>
+        <p>registration: {{registration}}</p>
         <button @click="addTournament()">Create Tournament</button>
       </div>
     </div>
