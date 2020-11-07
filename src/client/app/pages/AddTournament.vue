@@ -53,6 +53,12 @@
           title="registrationEnd"
           v-model="registration.entryCloseDate"
         /></p>
+        <div>
+					<label>Registration Start:</label>
+					<input type="date" name="registrationStart" class="dateinput">
+          <label>Registration End:</label>
+					<input type="date" name="registrationEnd" class="dateinput">
+				</div> <br>
         <InputField v-model="registration.entryFee" label="Entry Fee $$"/><br>
         <InputField v-model="registration.inviteOnly" label="Invite Only?"/><br>
       </div>
@@ -165,6 +171,15 @@ export default {
   padding: 20;
   border-radius: 5px;
   background-color: #f2f2f2;
+}
+.dateinput {
+  font-family:'arial';
+  padding: .25em .5em;
+  margin: 1.5rem 1em;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 .container-progressbar {
   width: 100%;
