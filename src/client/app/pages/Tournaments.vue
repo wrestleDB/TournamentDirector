@@ -1,47 +1,32 @@
 <template>
-  <div id="my-tournaments">
-    <h1><i class="fad fa-home-lg"></i> List of my Tournaments</h1>
-    <button @click="getTournamentList">Get Tournaments from DB</button>
-    <p>Tournament 1 <i class="fad fa-globe-americas"></i></p>
-    <p>Tournament 2 <i class="fad fa-lock-alt"></i> (invite only)</p>
-    <p>Tournament 3 <i class="fad fa-lock-open-alt"></i> (invite only) (you were invited)</p>
-    <br/>
-    <li v-if="latestTournament.error"> Error: {{latestTournament.error}}</li>
-    <li v-else v-for="tournament in state.tournaments" :key="tournament._id">
-      <span>Name: {{tournament.eventName}}</span>
-      <span>, Id: {{tournament._id}}</span>
-    </li>
+  <div>
+    <h1>Dashboard</h1>
+    <template v-if="!isLoading">
+      <EventCard v-for="event in events" :key="event.id" :event="event" />
+    </template>
+    <p v-else>
+      Loading events
+    </p>
   </div>
 </template>
 
 <script>
-import { reactive, computed, onMounted } from 'vue'
-import bent from 'bent'
+import axios from 'axios'
+import EventCard from '../components/EventCard.vue'
 
 export default {
-  name: "tournamentsList",
-  data: () => {
+  components: { EventCard },
+  data () {
     return {
-      tournaments: [{
-        error: "No tournaments found"
-      }]
+      isLoading: true,
+      events: []
     }
   },
-  computed: {
-    latestTournament() {
-      return this.tournaments[0]
-    }
-  },
-  methods: {
-    getTournamentList: async function () {
-      let getTournaments = bent("json")
-      let tournaments = await getTournaments("http://localhost:8081/tournaments")
-      console.log("TOURNAMNEsT: ", tournaments)
-    }
+  created () {
+    axios.get('//localhost:3000/tournaments').then(({ data }) => {
+      this.events = data.events.events
+      this.isLoading = false
+    })
   }
 }
 </script>
-
-<style>
-
-</style>

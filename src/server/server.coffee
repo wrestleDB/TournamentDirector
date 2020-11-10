@@ -12,15 +12,15 @@ hasher         = require './services/hasher'
 sessionStore   = require './services/session-store'
 
 app    = express()
-server = createServer(app)
+
+app.use helmet()
+app.use cors()
+app.use express.json()
+app.use express.urlencoded({extended: true})
 
 console.log "EXPRESS - Setting up configuration"
 
 app.set('port', (process.env.PORT_TOURNAMENT or 4001))
-
-app.use helmet()
-app.use express.json()
-app.use express.urlencoded({extended: true})
 
 # Static folder
 # app.use(express.static(path.resolve(__dirname, '../../lib/')))
@@ -102,6 +102,9 @@ app.use(express.static(path.resolve(__dirname, '../../lib/')))
 ################################################################
 # Startup
 ################################################################
+
+server = createServer(app)
+
 console.log "APP - Starting Server on port", app.get('port')
 server.listen app.get('port')
 
