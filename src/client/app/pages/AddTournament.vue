@@ -17,7 +17,7 @@
     <div class="regcard">
       <div v-show="currentStep === 1">
         <InputField v-model="eventName" label="Tournament Name"/>
-
+        <br>
         <DatePicker
           title="tournamentStart"
           v-model="eventDate.startDate"
@@ -32,9 +32,9 @@
       </div>
 
       <div v-show="currentStep === 3">
-        <InputField v-model="registration.numberOfMats" label="# of Mats"/><br>
-        <InputField v-model="registration.minWrestlers" label="Min # of Wrestlers"/><br>
-        <InputField v-model="registration.maxWrestlers" label="Max # of wrestlers"/><br>
+        <InputField v-model="registration.numberOfMats" label="# of Mats"/>
+        <InputField v-model="registration.minWrestlers" label="Min # of Wrestlers"/>
+        <InputField v-model="registration.maxWrestlers" label="Max # of wrestlers"/>
         <DropDown
           v-bind:options="bracketTypes"
           v-model="bracketType"
@@ -43,23 +43,34 @@
       </div>
 
       <div v-show="currentStep === 4">
+        <p> Select Registration Open Date: {{registration.entryOpenDate?.toHTTP()}}
         <DatePicker
           title="registrationStart"
           v-model="registration.entryOpenDate"
-        /><span> ^^^^ Select Registration Date: {{registration.entryOpenDate?.toHTTP()}}</span><br>
-
+        /></p><p>
+        Select Registration Close Date: {{registration.entryCloseDate?.toHTTP()}}
+        <DatePicker
+          title="registrationEnd"
+          v-model="registration.entryCloseDate"
+        /></p>
+        <div>
+					<label>Registration Start:</label>
+					<input type="date" name="registrationStart" class="dateinput">
+          <label>Registration End:</label>
+					<input type="date" name="registrationEnd" class="dateinput">
+				</div> <br>
         <InputField v-model="registration.entryFee" label="Entry Fee $$"/><br>
         <InputField v-model="registration.inviteOnly" label="Invite Only?"/><br>
       </div>
 
       <div v-show="currentStep === 5">
         <h1>Summary:</h1>
-        <p>eventName: {{eventName}}</p><br>
-        <p>bracketType: {{bracketType}}</p><br>
-        <p>numberOfMats: {{numberOfMats}}</p><br>
-        <p>eventDate: {{eventDate}}</p><br>
-        <p>location: {{location}}</p><br>
-        <p>registration: {{registration}}</p><br>
+        <p>Event Name: {{eventName}}</p>
+        <p>Bracket Type: {{bracketType}}</p>
+        <p>Number Of Mats: {{numberOfMats}}</p><br>
+        <p>Event Date: {{eventDate}}</p>
+        <p>Location: {{location}}</p>
+        <p>registration: {{registration}}</p>
         <button @click="addTournament()">Create Tournament</button>
       </div>
     </div>
@@ -158,6 +169,17 @@ export default {
   min-height: 350;
   text-align: left;
   padding: 20;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+}
+.dateinput {
+  font-family:'arial';
+  padding: .25em .5em;
+  margin: 1.5rem 1em;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 .container-progressbar {
   width: 100%;
