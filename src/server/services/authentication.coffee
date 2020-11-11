@@ -32,8 +32,8 @@ class Authentication
         console.log "err: ", err
         console.log "passwordMatches: ", passwordMatches
         return next("stop here -password invalid-") unless passwordMatches
-        return next(null, userInfo)
 
+        return next(null, userInfo)
 
   deserializeUser: (username, next) ->
     console.log "deserializeUser: ", username, "\n\n\n\n\n"

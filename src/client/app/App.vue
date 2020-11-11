@@ -10,7 +10,7 @@
 import NavBar from './navbar/NavBar.vue'
 import NavBarLogin from './navbar/NavBarLogin.vue'
 
-import { authComputed } from './helpers/vuexHelpers.js'
+import { authComputed } from '../helpers/vuexHelpers.js'
 
 
 export default {

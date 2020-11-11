@@ -95,7 +95,7 @@
 import bent from 'bent'
 import {DateTime} from 'luxon'
 import {reactive, computed, toRefs, ref } from 'vue'
-import {bracketTypes} from '../helpers/constants'
+import {bracketTypes} from '../../helpers/constants'
 
 export default {
   setup() {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Dashboard</h1>
+    <h1>List of Tournaments</h1>
     <template v-if="!isLoading">
       <EventCard v-for="event in events" :key="event.id" :event="event" />
     </template>

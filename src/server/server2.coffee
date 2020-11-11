@@ -1,5 +1,7 @@
 express = require 'express'
 jwt     = require 'jsonwebtoken'
+hasher  = require './services/hasher'
+axios   = require 'axios'
 cors    = require 'cors'
 fs      = require 'fs'
 helmet  = require 'helmet'
@@ -27,42 +29,24 @@ app.get '/tournaments', verifyToken, (req, res) ->
 
 
 app.post '/register', (req, res) ->
-  if req.body
-    user =
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password
-      # In a production app, you'll want to encrypt the password
+  console.log "\n\n\nHITTING SERVER 2", JSON.stringify(req.body, null, 2)
+  return res.status(400).send("No Username/andOr/Password provided") unless req.body?.email and req.body?.password
 
-    data = JSON.stringify(user, null, 2)
+  {name, email, password} = req.body
 
-    # dbUserEmail = require('./userdb.json').email
-    errorsToSend = []
+  hasher.hashPassword password, (err, hashedPassword) ->
+    user = {name, email, password: hashedPassword}
 
-    # if (dbUserEmail is user.email)
-    #   errorsToSend.push('An account with this email already exists.')
+    axios.post("http://localhost:4001/register", user)
+      .then (response) ->
+        dataToSendToVuex = JSON.parse(JSON.stringify(response.data))
+        dataToSendToVuex.token = jwt.sign({ user }, 'the_secret_key')
+        # In a production app, you'll want the secret key to be an environment variable
 
-    # if (user.password.length < 5)
-    #   errorsToSend.push('Password too short.')
-
-    # if (errorsToSend.length > 0)
-    #   res.status(400).json({ errors: errorsToSend })
-
-    # else
-    #   fs.writeFile './userdb.json', data, err =>
-    #     if err
-    #       console.log(err + data)
-    #     else
-    #       token = jwt.sign({ user }, 'the_secret_key')
-    #       # In a production app, you'll want the secret key to be an environment variable
-    #       res.json({
-    #         token,
-    #         email: user.email,
-    #         name: user.name
-    #       })
-  else
-    res.sendStatus(400)
-
+        res.status(201).json(dataToSendToVuex).end()
+      , (error) ->
+        console.log "server 2 .error", error.toJSON()
+        res.json(error.toJSON()).status(400).end()
 
 app.post '/login', (req, res) =>
   # userDB = fs.readFileSync('./userdb.json')

@@ -11,7 +11,7 @@ authentication = require './services/authentication'
 hasher         = require './services/hasher'
 sessionStore   = require './services/session-store'
 
-app    = express()
+app = express()
 
 app.use helmet()
 app.use cors()
@@ -64,19 +64,22 @@ app.get '/register', (req, res, next) ->
 
 
 app.post '/register', (req, res, next) ->
-  return next("No Username/andOr/Password provided") unless req.body?.username and req.body?.password
+  console.log "\n\n\nHITTING SERVER 1", JSON.stringify(req.body, null, 2)
+  return next("No Username/andOr/Password provided") unless req.body?.email and req.body?.password
 
-  {username, password} = req.body
+  {email, password} = req.body
+
 
   hasher.hash password, (err, hashedPassword) ->
     return next(err) if err
 
     try
       request  = bent('http://localhost:8081/', 'POST', 'json')
-      response = await request('register', {username, hashedPassword})
-      {user, error}  = response
+      response = await request('register', {username:email, hashedPassword})
+      console.log "Server 1 Register response:", JSON.stringify(response, null, 2)
+      {error}  = response
       return next(error) if error
-      return res.redirect('/login')
+      return res.json(JSON.parse(JSON.stringify(response))).status(201).end()
 
     catch error
       return next(error)
@@ -92,6 +95,7 @@ app.get '/login-failure', (req, res, next) ->
   res.send('You entered the wrong password.')
 
 app.use (req, res, next) ->
+  console.log "TESTING THIS HERE!!!"
   # TODO: fix routing for the originalUrl in production, see https://github.com/wrestleDB/TournamentDirector/issues/30
   console.log("req.originalUrl: ", req.originalUrl)
   return res.redirect('/') unless req.userContext

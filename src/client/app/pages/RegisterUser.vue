@@ -5,17 +5,17 @@
         Name:
       </label>
       <input v-model="name" type="text" name="name" value>
-
+<hr>
       <label for="email">
         Email:
       </label>
       <input v-model="email" type="email" name="email" value>
-
+<hr>
       <label for="password">
         Password:
       </label>
       <input v-model="password" type="password" name="password" value>
-
+<hr>
       <button type="submit" name="button">
         Register
       </button>
@@ -45,6 +45,7 @@ export default {
   },
   methods: {
     register () {
+      // In a production app, you'll want to encrypt the password
       this.$store
         .dispatch('register', {
           name: this.name,
@@ -52,7 +53,7 @@ export default {
           password: this.password
         })
         .then(() => {
-          this.$router.push({ name: 'allTournaments' })
+          this.$router.push({ name: 'all-tournaments' })
         })
         .catch(err => {
           this.errors = err.response.data.errors
