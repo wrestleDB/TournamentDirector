@@ -34,40 +34,35 @@ app.post '/register', (req, res) ->
 
   {name, email, password} = req.body
 
-  hasher.hashPassword password, (err, hashedPassword) ->
-    user = {name, email, password: hashedPassword}
-
-    axios.post("http://localhost:4001/register", user)
+  hasher.hash password, (err, hashedPassword) ->
+    axios.post("http://localhost:8081/register", {name, email, hashedPassword})
       .then (response) ->
         dataToSendToVuex = JSON.parse(JSON.stringify(response.data))
-        dataToSendToVuex.token = jwt.sign({ user }, 'the_secret_key')
+        dataToSendToVuex.token = jwt.sign({ user:{name, email, hashedPassword} }, 'the_secret_key')
         # In a production app, you'll want the secret key to be an environment variable
-
         res.status(201).json(dataToSendToVuex).end()
       , (error) ->
         console.log "server 2 .error", error.toJSON()
         res.json(error.toJSON()).status(400).end()
 
-app.post '/login', (req, res) =>
-  # userDB = fs.readFileSync('./userdb.json')
-  # userInfo = JSON.parse(userDB)
-  userInfo = {
-    email: "dad"
-  }
+app.post '/login', (req, res) ->
+  axios.post("http://localhost:8081/login", req.body)
+    .then (response) ->
+      console.log("login - response: ", response.data)
+      user = response.data
 
-  # if (req.body and req.body.email is userInfo.email and req.body.password is userInfo.password)
-  if true
-    token = jwt.sign({ userInfo }, 'the_secret_key')
-    # In a production app, you'll want the secret key to be an environment variable
-    res.json({
-      token,
-      email: userInfo.email,
-      name: userInfo.name
-    })
-  else
-    res.status(401).json({ error: 'Invalid login. Please try again.' })
-
-
+      hasher.compare req.body.password, user.password, (err, result) ->
+        console.log {err, result}
+        if not result
+          res.status(401).json({ error: 'Invalid login. Please try again.' })
+        else
+          token = jwt.sign({ user }, 'the_secret_key')
+          # In a production app, you'll want the secret key to be an environment variable
+          res.json({
+            token,
+            email: user.email,
+            name: user.name
+          })
 
 app.listen 3000, ->
   console.log('AUTH - Client Side Auth Server started on port 3000')
