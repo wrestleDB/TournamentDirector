@@ -10,16 +10,14 @@ getters =
 actions =
   register: ({ commit }, credentials) ->
     return axios
-      .post('//localhost:3000/register', credentials)
+      .post('http://localhost:3000/register', credentials)
       .then(({ data }) => commit('SET_USER_DATA', data))
 
   login: ({ commit }, credentials) ->
+    {email, password} = credentials
     return axios
-      .post('//localhost:3000/login', credentials)
-      .then(({ data }) =>
-        console.log("STORE - Then: ", data)
-        commit('SET_USER_DATA', data)
-      )
+      .post('http://localhost:3000/login', {username: email, password})
+      .then(({ data }) => commit('SET_USER_DATA', data))
 
   logout: ({ commit }) ->
     commit('CLEAR_USER_DATA')

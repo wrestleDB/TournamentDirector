@@ -171,7 +171,8 @@ export default {
     logout () {
       console.log("Logging Out:\n\n")
       this.$store.dispatch('logout')
-      // axios.get('/logout').then(window.location.reload(true))
+      axios.get('http://localhost:3000/logout')//.then(window.location.reload(true))
+      return
     }
   }
 }

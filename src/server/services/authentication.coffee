@@ -68,6 +68,7 @@ class Authentication
     return next()
 
   logout: (req, res, next) ->
+    console.log "AUTH - logging out"
     req.logout()
     delete req.userContext
     req.session.destroy()
