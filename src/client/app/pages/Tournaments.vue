@@ -22,11 +22,11 @@ export default {
       events: []
     }
   },
-  created () {
-    axios.get('//localhost:3000/tournaments').then(({ data }) => {
-      this.events = data.events.events
-      this.isLoading = false
-    })
+  async created () {
+    const result = await axios.get('http://localhost:3000/tournaments')
+    console.log("Here; data", result.data.events)
+    this.events = result.data.events
+    this.isLoading = false
   }
 }
 </script>

@@ -140,7 +140,13 @@ export default {
   name: 'navbar',
   computed: mapGetters(['username']),
   methods: {
-    logout: () => axios.get('/logout').then(window.location.reload(true))
+    logout () {
+      console.log("Logging Out:\n\n")
+      return axios.get('http://localhost:3000/logout')//.then(window.location.reload(true))
+       .then(this.$store.dispatch('logout'))
+
+
+    }
   }
 }
 

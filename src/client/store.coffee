@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 import axios from 'axios'
 
 state =
-  user: localStorage.getItem('user') or null
+  user: null
 
 getters =
   loggedIn: (state) -> state.user?
@@ -17,7 +17,9 @@ actions =
     {email, password} = credentials
     return axios
       .post('http://localhost:3000/login', {username: email, password})
-      .then(({ data }) => commit('SET_USER_DATA', data))
+      .then(({ data }) =>
+        console.log {data}
+        commit('SET_USER_DATA', data))
 
   logout: ({ commit }) ->
     commit('CLEAR_USER_DATA')

@@ -32,7 +32,7 @@ class Authentication
         console.log "err: ", err
         console.log "passwordMatches: ", passwordMatches
         return next("stop here -password invalid-") unless passwordMatches
-
+        console.log "continueing"
         return next(null, userInfo)
 
   deserializeUser: (username, next) ->
@@ -40,18 +40,20 @@ class Authentication
     try
       getJSON = bent('json')
       user = await getJSON("http://localhost:8081/user?username=#{username}")
+      console.log "Found User ds: ", user
       return next(null, user)
 
     catch error
       console.error "ERROR", error
-      return next(false)
+      return next(null, false)
 
   serializeUser: (user, next) ->
-    console.log "serializeUser: ", user
+    console.log "serializeUser: ", user.username
     return next(null, user.username)
 
   # Middleware -----------------------------------------------------------------
   setContext: (req, res, next) ->
+    console.log "setting context: user--> ", req.body
     return next() unless req.user
     console.log "setting context: user--> ", req.user
 
