@@ -9,6 +9,9 @@ cors    = require 'cors'
 fs      = require 'fs'
 helmet  = require 'helmet'
 
+
+backEndEndpoint = process.env.WRESTLEDB_SERVER_ENDPOINT or "http://localhost:8081"
+
 # MIDDLEWARE
 {verifyToken} = require './services/verifyToken'
 # {sessionServer} = require './sessionServer'
@@ -30,7 +33,7 @@ app.post '/register', (req, res) ->
   {name, email, password} = req.body
 
   hasher.hash password, (err, hashedPassword) ->
-    axios.post("http://localhost:8081/register", {name, email, hashedPassword}, {auth: {username: 'wrestledb', password: 'wdb'}})
+    axios.post("#{backEndEndpoint}/register", {name, email, hashedPassword}, {auth: {username: 'wrestledb', password: 'wdb'}})
       .then (response) ->
         dataToSendToVuex = JSON.parse(JSON.stringify(response.data))
         dataToSendToVuex.token = jwt.sign({ user:{name, email, hashedPassword} }, 'the_secret_key')
@@ -42,7 +45,7 @@ app.post '/register', (req, res) ->
 
 
 app.post '/login', (req, res) ->
-  axios.post("http://localhost:8081/login", req.body, {auth: {username: 'wrestledb', password: 'wdb'}})
+  axios.post("#{backEndEndpoint}/login", req.body, {auth: {username: 'wrestledb', password: 'wdb'}})
     .then (response) ->
       console.log("login - response: ", response.data)
       user = response.data
