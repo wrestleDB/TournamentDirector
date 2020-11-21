@@ -1,60 +1,40 @@
 import { createStore } from 'vuex'
+import axios from 'axios'
 
 state =
-  user:
-    _id: ""
-    username: "default@username.com"
-  tournament:
-    eventName      : ""
-    status         : "new" # ["new", "step1", "step2", "complete"]
-    bracketType    : "double-elimination"
-    numberOfMats   : ""
-    eventDate      :
-      startDate: ""
-      endDate  : ""
-    location:
-      address    : ""
-      address2   : ""
-      city       : ""
-      state      : ""
-      postalCode : ""
-      country    : "US"
-      lat        : 0
-      lng        : 0
-      timezone   : ""
-    registration:
-      numberOfMats   : ""
-      entryFee       : ""
-      inviteOnly     : ""
-      openDate       : ""
-      closeDate      : ""
-      minWrestlers   : ""
-      maxWrestlers   : ""
-      earlyDiscount  : ""
-      earlyOpenDate  : ""
-      earlyCloseDate : ""
+  user: null
 
 getters =
-  tournament: (state) -> return state.tournament
-  status: (state) -> return state.tournament.status
+  loggedIn: (state) -> state.user?
 
 actions =
-  addTournament:  ->
-    console.log "Adding Tournament: ", JSON.stringify(@, null, 2)
-    # tournament = JSON.stringify(@)
-    # TODO: insert 'bent' here
-    # axios.put('http:localhost:8081/tournaments', {tournament})
-    #   .then((a, b, c) ->
-    #     console.log("Add Tournament - A: ", a)
-    #     console.log("Add Tournament - B: ", b)
-    #     console.log("Add Tournament - C: ", c)
-    #   )
-  validateTournamentData: ->
-    return false unless this.eventName
-    return true
+  register: ({ commit }, credentials) ->
+    return axios
+      .post('http://localhost:3000/register', credentials)
+      .then(({ data }) => commit('SET_USER_DATA', data))
 
+  login: ({ commit }, credentials) ->
+    {email, password} = credentials
+    return axios
+      .post('http://localhost:3000/login', {username: email, password})
+      .then(({ data }) =>
+        console.log {data}
+        commit('SET_USER_DATA', data))
 
-mutations = {}
+  logout: ({ commit }) ->
+    commit('CLEAR_USER_DATA')
+
+mutations =
+  SET_USER_DATA: (state, userData) ->
+    console.log "VUEX - SETTING USER DATA ", userData
+    state.user = userData
+    localStorage.setItem('user', JSON.stringify(userData))
+    axios.defaults.headers.common['Authorization'] = "Bearer #{userData.token}"
+    console.log "axios.defaults.headers", axios.defaults.headers.common
+
+  CLEAR_USER_DATA: () ->
+    localStorage.removeItem('user')
+    location.reload()
 
 store = createStore({state, getters, actions, mutations})
 

@@ -73,10 +73,10 @@
       </li>
 
       <li class="nav-item">
-        <a href="http://localhost:4001/logout" class="nav-link">
-        <i class="fad fa-power-off fa-2x"></i>
+        <!-- <a href="http://localhost:4001/logout" class="nav-link"> -->
+        <i class="fad fa-power-off fa-2x" @click="logout()"></i>
         <span class="link-text">Logout</span>
-        </a>
+        <!-- </a> -->
       </li>
 
       <!-- <li class="nav-item" id="themeButton" @click="toggleTheme">
@@ -168,7 +168,13 @@ export default {
   name: 'navbar',
   computed: mapGetters(['username']),
   methods: {
-    logout: () => axios.get('/logout').then(window.location.reload(true))
+    logout () {
+      console.log("Logging Out:\n\n")
+      axios.get('http://localhost:3000/logout')//.then(window.location.reload(true))
+       .then(this.$store.dispatch('logout'))
+
+      return
+    }
   }
 }
 
