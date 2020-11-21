@@ -18,7 +18,7 @@ backEndEndpoint = process.env.WRESTLEDB_SERVER_ENDPOINT or "http://localhost:808
 
 app = express()
 
-app.set('port', process.env.PORT_TOURNAMENT or 3000)
+app.set('port', process.env.PORT or 3000)
 
 app.use helmet()
 app.use cors()
