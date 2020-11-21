@@ -79,8 +79,8 @@ app.get '/tournaments', verifyToken, (req, res) ->
     else
       res.json({events: [{tournamentName: "testTournament", id: 1, time:"4PM", date: "Tomorrow", title: "SwagFest"}]})
 
-app.use "/", (req, res) ->
-  res.redirect('/')
+# app.use "/", (req, res) ->
+#   res.redirect('/')
 
 ################################################################
 # Startup
