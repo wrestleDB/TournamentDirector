@@ -18,12 +18,12 @@ backEndEndpoint = process.env.WRESTLEDB_SERVER_ENDPOINT or "http://localhost:808
 
 app = express()
 
+app.set('port', process.env.PORT_TOURNAMENT or 3000)
+
 app.use helmet()
 app.use cors()
 app.use express.json()
 app.use express.urlencoded({extended: true})
-
-app.set('port', (3000 or process.env.PORT_TOURNAMENT or 3000))
 
 app.use(express.static(path.resolve(__dirname, '../../lib/')))
 
