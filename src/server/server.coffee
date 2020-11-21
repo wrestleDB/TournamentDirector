@@ -22,7 +22,7 @@ app.use express.urlencoded({extended: true})
 
 app.set('port', (3000 or process.env.PORT_TOURNAMENT or 3000))
 
-app.get(express.static(path.resolve(__dirname, '../../lib/')))
+app.use(express.static(path.resolve(__dirname, '../../lib/')))
 
 app.post '/register', (req, res) ->
   return res.status(400).send("No Username/andOr/Password provided") unless req.body?.email and req.body?.password
@@ -71,9 +71,13 @@ app.get '/tournaments', verifyToken, (req, res) ->
   jwt.verify req.token, 'the_secret_key', (err) =>
     if err
       console.log "Tournaments ERROR!!!"
-      res.sendStatus(401)
+      res.sendStatus(401).redirect('/')
+      # res.redirect('/')
     else
       res.json({events: [{tournamentName: "testTournament", id: 1, time:"4PM", date: "Tomorrow", title: "SwagFest"}]})
+
+app.use "/", (req, res) ->
+  res.redirect('/')
 
 ################################################################
 # Startup
