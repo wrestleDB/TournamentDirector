@@ -7,7 +7,7 @@
   "description": "Software for running wrestling tournaments",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && node src/server/index.js",
+    "start": "node src/server/index.js",
     "client": "webpack-dev-server --mode=development --config=webpack.dev.js",
     "dev": "npm run client & npm run server",
     "build": "webpack --mode=production --config=webpack.prod.js",
