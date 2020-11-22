@@ -93,7 +93,7 @@ app.post '/api/tournaments', verifyToken, (req, res) ->
       # res.json({events: [{tournamentName: "testTournament", id: 1, time:"4PM", date: "Tomorrow", title: "SwagFest"}]})
 
 # Handle SPA
-app.get(/.*/, (req, res) => res.sendFile(path.resolve(__dirname, './index.html')))
+app.get("/", (req, res) => res.sendFile(path.resolve(__dirname, './index.html')))
 ################################################################
 # Startup
 ################################################################
