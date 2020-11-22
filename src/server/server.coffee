@@ -27,9 +27,9 @@ app.use express.urlencoded({extended: true})
 
 app.use(express.static(path.resolve(__dirname, '../../lib/')))
 
-app.use "/", (req, res, next) ->
-  return next() if req.originalUrl.startsWith('/api/')
-  # res.status(400).send("Malformed URL").end()
+# app.use "/", (req, res, next) ->
+#   return next() if req.originalUrl.startsWith('/api/')
+#   res.status(400).send("Malformed URL").end()
 
 app.post '/api/register', (req, res) ->
   return res.status(400).send("No Username/andOr/Password provided") unless req.body?.email and req.body?.password
