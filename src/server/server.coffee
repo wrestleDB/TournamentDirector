@@ -27,7 +27,11 @@ app.use express.urlencoded({extended: true})
 
 app.use(express.static(path.resolve(__dirname, '../../lib/')))
 
-app.post '/register', (req, res) ->
+app.use "/", (req, res, next) ->
+  return next() if req.originalUrl.startsWith('/api/')
+  res.status(400).send("Malformed URL").end()
+
+app.post '/api/register', (req, res) ->
   return res.status(400).send("No Username/andOr/Password provided") unless req.body?.email and req.body?.password
 
   {name, email, password} = req.body
@@ -43,8 +47,7 @@ app.post '/register', (req, res) ->
         console.log "server 2 .error", error.toJSON()
         res.json(error.toJSON()).status(400).end()
 
-
-app.post '/login', (req, res) ->
+app.post '/api/login', (req, res) ->
   axios.post("#{backEndEndpoint}/login", req.body, {auth: {username: 'wrestledb', password: 'wdb'}})
     .then (response) ->
       console.log("login - response: ", response.data)
@@ -64,13 +67,9 @@ app.post '/login', (req, res) ->
             name: user.name
           })
 
-app.use "/", (req, res, next) ->
-  console.log "\n\nGETTING CALLED\n\n"
-  return next()
-
 # app.use "/auth", sessionServer TODO: SETUP REDIS SESSION SERVER FOR PAYMENT AUTHENTICATION
 
-app.get '/tournaments', verifyToken, (req, res) ->
+app.get '/api/tournaments', verifyToken, (req, res) ->
   jwt.verify req.token, 'the_secret_key', (err) =>
     if err
       console.log "Tournaments ERROR!!!"
@@ -79,7 +78,7 @@ app.get '/tournaments', verifyToken, (req, res) ->
     else
       res.json({events: [{tournamentName: "testTournament", id: 1, time:"4PM", date: "Tomorrow", title: "SwagFest"}]})
 
-app.post '/tournaments', verifyToken, (req, res) ->
+app.post '/api/tournaments', verifyToken, (req, res) ->
   console.log "req: ", req.body
   jwt.verify req.token, 'the_secret_key', (err) =>
     if err
@@ -93,14 +92,6 @@ app.post '/tournaments', verifyToken, (req, res) ->
           res.status(201).json(response.data)
       # res.json({events: [{tournamentName: "testTournament", id: 1, time:"4PM", date: "Tomorrow", title: "SwagFest"}]})
 
-# app.get "/logout", (req, res) ->
-#   console.log "REDIRECTING"
-#   res.redirect('/')
-  # console.log "getting logout"
-  # return res.status(200).end()
-
-# Handle SPA
-# app.get(/.*/, (req, res) -> res.sendFile(path.resolve(__dirname, '/')))
 
 ################################################################
 # Startup
