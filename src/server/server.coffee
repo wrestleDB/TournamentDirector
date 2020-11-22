@@ -10,7 +10,7 @@ fs      = require 'fs'
 helmet  = require 'helmet'
 
 
-backEndEndpoint = process.env.WRESTLEDB_SERVER_ENDPOINT or "https://wrestledb-server.herokuapp.com/"
+backEndEndpoint = process.env.WRESTLEDB_SERVER_ENDPOINT or "http://localhost:8081"
 
 # MIDDLEWARE
 {verifyToken} = require './services/verifyToken'

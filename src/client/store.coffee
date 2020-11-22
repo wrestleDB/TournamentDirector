@@ -1,6 +1,8 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 
+# TODO, fix this to point to /api of this project (connect webpack proxy), remove direct call
+
 state =
   user: null
 
@@ -10,13 +12,13 @@ getters =
 actions =
   register: ({ commit }, credentials) ->
     return axios
-      .post('http://localhost:3000/register', credentials)
+      .post("/register", credentials)
       .then(({ data }) => commit('SET_USER_DATA', data))
 
   login: ({ commit }, credentials) ->
     {email, password} = credentials
     return axios
-      .post('http://localhost:3000/login', {username: email, password})
+      .post("/login", {username: email, password})
       .then(({ data }) =>
         console.log {data}
         commit('SET_USER_DATA', data))
