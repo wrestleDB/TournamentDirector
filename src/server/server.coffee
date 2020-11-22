@@ -93,11 +93,14 @@ app.post '/tournaments', verifyToken, (req, res) ->
           res.status(201).json(response.data)
       # res.json({events: [{tournamentName: "testTournament", id: 1, time:"4PM", date: "Tomorrow", title: "SwagFest"}]})
 
-app.get "/logout", (req, res) ->
-  console.log "REDIRECTING"
-  res.redirect('/')
+# app.get "/logout", (req, res) ->
+#   console.log "REDIRECTING"
+#   res.redirect('/')
   # console.log "getting logout"
   # return res.status(200).end()
+
+# Handle SPA
+# app.get(/.*/, (req, res) -> res.sendFile(path.resolve(__dirname, '/')))
 
 ################################################################
 # Startup

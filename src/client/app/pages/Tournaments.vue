@@ -23,7 +23,7 @@ export default {
     }
   },
   async created () {
-    const result = await axios.get('/tournaments')
+    const result = await axios.get('api/tournaments')
     console.log("Here; data", result.data.events)
     this.events = result.data.events
     this.isLoading = false

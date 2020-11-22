@@ -170,8 +170,7 @@ export default {
   methods: {
     logout () {
       console.log("Logging Out:\n\n")
-      axios.get('/logout')//.then(window.location.reload(true))
-       .then(this.$store.dispatch('logout'))
+      this.$store.dispatch('logout')
     }
   }
 }

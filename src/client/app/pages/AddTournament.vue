@@ -148,7 +148,7 @@ export default {
 
     const addTournament = async function () {
       console.log("Adding Tournament")
-      axios.post('/tournaments', tournament)
+      axios.post('api/tournaments', tournament)
         .then((response) => {
           console.log(response.data)
 

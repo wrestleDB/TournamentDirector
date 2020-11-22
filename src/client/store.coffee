@@ -12,13 +12,13 @@ getters =
 actions =
   register: ({ commit }, credentials) ->
     return axios
-      .post("/register", credentials)
+      .post("api/register", credentials)
       .then(({ data }) => commit('SET_USER_DATA', data))
 
   login: ({ commit }, credentials) ->
     {email, password} = credentials
     return axios
-      .post("/login", {username: email, password})
+      .post("api/login", {username: email, password})
       .then(({ data }) =>
         console.log {data}
         commit('SET_USER_DATA', data))
