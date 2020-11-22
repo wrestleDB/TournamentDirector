@@ -10,7 +10,7 @@ fs      = require 'fs'
 helmet  = require 'helmet'
 
 
-backEndEndpoint = process.env.WRESTLEDB_SERVER_ENDPOINT or "https://wrestledb-server.herokuapp.com/"
+backEndEndpoint = process.env.WRESTLEDB_SERVER_ENDPOINT or "http://localhost:8081"
 
 # MIDDLEWARE
 {verifyToken} = require './services/verifyToken'
@@ -79,8 +79,25 @@ app.get '/tournaments', verifyToken, (req, res) ->
     else
       res.json({events: [{tournamentName: "testTournament", id: 1, time:"4PM", date: "Tomorrow", title: "SwagFest"}]})
 
-# app.use "/", (req, res) ->
-#   res.redirect('/')
+app.post '/tournaments', verifyToken, (req, res) ->
+  console.log "req: ", req.body
+  jwt.verify req.token, 'the_secret_key', (err) =>
+    if err
+      console.log "POST Tournaments ERROR!!!"
+      res.sendStatus(401).redirect('/')
+      # res.redirect('/')
+    else
+      axios.post("#{backEndEndpoint}/tournaments", req.body, {auth: {username: 'wrestledb', password: 'wdb'}})
+        .then (response) ->
+          console.log("post - response: ", response.data)
+          res.status(201).json(response.data)
+      # res.json({events: [{tournamentName: "testTournament", id: 1, time:"4PM", date: "Tomorrow", title: "SwagFest"}]})
+
+app.get "/logout", (req, res) ->
+  console.log "REDIRECTING"
+  res.redirect('/')
+  # console.log "getting logout"
+  # return res.status(200).end()
 
 ################################################################
 # Startup

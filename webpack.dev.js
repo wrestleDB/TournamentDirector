@@ -17,7 +17,9 @@ module.exports = merge(config, {
     port: 4000,
     host: '0.0.0.0',
     proxy: {
-      "/proxy": "http://localhost:3000"
+      "/": {
+        target: "http://localhost:3000"
+      }
     }
   },
   plugins: [

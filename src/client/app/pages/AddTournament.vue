@@ -103,13 +103,16 @@
 </template>
 
 <script>
-import bent from 'bent'
+// import bent from 'bent'
+import axios from 'axios'
 import {DateTime} from 'luxon'
 import {reactive, computed, toRefs, ref } from 'vue'
+import {useRouter} from 'vue-router'
 import {bracketTypes} from '../../helpers/constants'
 
 export default {
   setup() {
+    const router = useRouter()
     const tournament = reactive({
       eventName      : "",
       bracketType    : "double-elimination",
@@ -145,9 +148,16 @@ export default {
 
     const addTournament = async function () {
       console.log("Adding Tournament")
-      let putRequest = bent('http://localhost:8081/', 'PUT', 'json')
-      let response = await putRequest('tournaments', tournament)
-      console.log("Response: ", response)
+      axios.post('/tournaments', tournament)
+        .then((response) => {
+          console.log(response.data)
+
+          if (response.data?.error) console.log("ERROR: ", response.data.error?.message)
+          else router.push({name: 'all-tournaments'})
+        })
+        .catch((error) => {
+          console.log("cauht an error: ", {error})
+        })
     }
 
     const currentStep = ref(1)

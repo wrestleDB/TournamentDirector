@@ -1,6 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
-# ^there is also createWebHashHistory and createMemoryHistory
-
+import { createRouter, createWebHistory } from 'vue-router' # there is also createWebHashHistory and createMemoryHistory
 import Home          from './app/pages/Home.vue'
 import AddTournament from './app/pages/AddTournament.vue'
 import Tournaments   from './app/pages/Tournaments.vue'
