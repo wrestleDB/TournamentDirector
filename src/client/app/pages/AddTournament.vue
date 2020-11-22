@@ -103,7 +103,8 @@
 </template>
 
 <script>
-import bent from 'bent'
+// import bent from 'bent'
+import axios from 'axios'
 import {DateTime} from 'luxon'
 import {reactive, computed, toRefs, ref } from 'vue'
 import {bracketTypes} from '../../helpers/constants'
@@ -145,9 +146,18 @@ export default {
 
     const addTournament = async function () {
       console.log("Adding Tournament")
-      let putRequest = bent('http://localhost:8081/', 'PUT', 'json')
-      let response = await putRequest('tournaments', tournament)
-      console.log("Response: ", response)
+      // let putRequest = bent('http://localhost:8081/', 'PUT', 'json')
+      // let response = await putRequest('tournaments', tournament)
+      // response = await axios.post('/tournaments', tournament)
+      // console.log("Response: ", response.data)
+      // return
+      axios.post('/tournaments', tournament)
+        .then((response) =>{
+          console.log(response.data)
+        })
+        .catch((error) => {
+          console.log("cauht an error: ", {error})
+        })
     }
 
     const currentStep = ref(1)
