@@ -1,26 +1,23 @@
 <template>
-  <div>
+  <div id="LoginForm">
     <form @submit.prevent="login">
-      <label for="email">
-        Email:
-      </label>
-      <input v-model="email" type="email" name="email" value>
-
-      <label for="password">
-        Password:
-      </label>
-      <input v-model="password" type="password" name="password" value>
-
-      <button type="submit" name="button">
-        Login
-      </button>
-
-      <p>{{ error }}</p>
-
-      <router-link to="/register">
-        Don't have an account? Register.
-      </router-link>
+      <h2>Login</h2>
+      <div>
+        <label>Email</label>
+        <input v-model="email" type="email" name="email" placeholder="champ@wrestleDB.com">
+      </div>
+      <div>
+        <label>Password</label>
+        <input v-model="password" type="password" name="password">
+      </div>
+      <button type="submit" name="submit">Submit</button>
     </form>
+
+    <p>{{ error }}</p>
+
+    <router-link to="/register">
+      Don't have an account? Register.
+    </router-link>
   </div>
 </template>
 
@@ -53,4 +50,40 @@ export default {
 </script>
 
 <style scoped>
+form {
+  margin-left: 50%;
+  transform: translateX(-50%);
+  text-align: right;
+  padding: 10;
+  border-radius: 1px;
+  display: inline-block;
+  background-color: #f2f2f2;
+  box-shadow: 5px 10px 2em #888888;
+  align-self: center;
+}
+h2{
+	text-align: center;
+	font-size: 2rem;
+}
+label{
+	padding: 5em .5em;
+}
+input{
+  width: 15rem;
+  font-family:'arial';
+  padding: .5em .5em;
+  margin: 1em .25em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+select{
+  width: 15rem;
+  font-family:'arial';
+  padding: .5em .5em;
+  margin: 1em .25em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
 </style>

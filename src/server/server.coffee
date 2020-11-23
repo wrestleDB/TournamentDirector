@@ -32,15 +32,16 @@ app.use(express.static(path.resolve(__dirname, '../../lib/')))
 #   res.status(400).send("Malformed URL").end()
 
 app.post '/api/register', (req, res) ->
+  console.log "\nStarting Register: ", req.body
   return res.status(400).send("No Username/andOr/Password provided") unless req.body?.email and req.body?.password
 
-  {name, email, password} = req.body
+  {firstName, lastName, email, password} = req.body
 
   hasher.hash password, (err, hashedPassword) ->
-    axios.post("#{backEndEndpoint}/register", {name, email, hashedPassword}, {auth: {username: 'wrestledb', password: 'wdb'}})
+    axios.post("#{backEndEndpoint}/register", {firstName, lastName, email, hashedPassword}, {auth: {username: 'wrestledb', password: 'wdb'}})
       .then (response) ->
         dataToSendToVuex = JSON.parse(JSON.stringify(response.data))
-        dataToSendToVuex.token = jwt.sign({ user:{name, email, hashedPassword} }, 'the_secret_key')
+        dataToSendToVuex.token = jwt.sign({ user:{firstName, lastName, email, hashedPassword} }, 'the_secret_key')
         # In a production app, you'll want the secret key to be an environment variable
         res.status(201).json(dataToSendToVuex).end()
       , (error) ->
