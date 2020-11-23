@@ -18,7 +18,7 @@ import RegisterUser  from './app/pages/RegisterUser.vue'
 router = createRouter({
   history: createWebHistory()
   routes: [
-    { path: '/',                name: 'home',            component: Home                                      }
+    { path: '/',                name: 'home',            component: Home,          meta: {requiresAuth: true} }
     { path: '/login',           name: 'login',           component: Login                                     }
     { path: '/registerUser',    name: 'register-user',   component: RegisterUser                              }
     { path: '/addTournament',   name: 'add-tournament',  component: AddTournament, meta: {requiresAuth: true} }
@@ -37,7 +37,7 @@ router.beforeEach (to, from, next) ->
 
   if (to.matched.some((record) -> record.meta.requiresAuth) and not loggedIn)
     console.log("Did not make it past authentication!")
-    next('/')
+    next('/login')
   else
     console.log("Made it past authentication!")
     next()
