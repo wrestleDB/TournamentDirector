@@ -2,6 +2,7 @@
   <div>
     <h1>List of Tournaments</h1>
     <template v-if="!isLoading">
+      <!-- TODO: Each eventCard should be a link to the tournament landing page. -->
       <EventCard v-for="event in events" :key="event.id" :event="event" />
     </template>
     <p v-else>
@@ -24,8 +25,8 @@ export default {
   },
   async created () {
     const result = await axios.get('api/tournaments')
-    console.log("Here; data", result.data.events)
-    this.events = result.data.events
+    console.log("Here; data", result.data)
+    this.events = result.data
     this.isLoading = false
   }
 }

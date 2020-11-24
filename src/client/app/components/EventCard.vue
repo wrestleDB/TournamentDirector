@@ -1,7 +1,7 @@
 <template>
   <div class="event-card">
-    <span>@{{ event.time }} on {{ event.date }}</span>
-    <h4>{{ event.title }}</h4>
+    <span>@ {{ event.eventDate.startDate }}</span>
+    <h4>tournament Name: {{ event.eventName }}</h4>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
 
 <style scoped>
 .event-card {
-  width: 13em;
+  width: 23em;
   margin: 1em auto 1em auto;
   padding: 1em;
   border: solid 1px #2c3e50;

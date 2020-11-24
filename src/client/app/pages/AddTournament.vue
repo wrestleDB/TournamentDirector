@@ -153,7 +153,10 @@ export default {
           console.log(response.data)
 
           if (response.data?.error) console.log("ERROR: ", response.data.error?.message)
-          else router.push({name: 'all-tournaments'})
+          else {
+            router.push({name: 'all-tournaments'})
+          }
+
         })
         .catch((error) => {
           console.log("cauht an error: ", {error})
