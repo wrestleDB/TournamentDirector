@@ -77,6 +77,10 @@ app.post '/api/login', (req, res) ->
       res.json(error.toJSON()).status(400).end()
 # app.use "/auth", sessionServer TODO: SETUP REDIS SESSION SERVER FOR PAYMENT AUTHENTICATION
 
+app.get '/api/event/:id', verifyToken, (req, res) ->
+  console.log "get api/event params: ", req.params
+  res.json(req.params).status(200).end()
+
 app.get '/api/tournaments', verifyToken, (req, res) ->
   jwt.verify req.token, 'the_secret_key', (err) =>
     if err
