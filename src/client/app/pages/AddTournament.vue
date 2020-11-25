@@ -94,9 +94,10 @@ import {reactive, computed, toRefs, ref } from 'vue'
 import {useRouter} from 'vue-router'
 import {bracketTypes} from '../../helpers/constants'
 
+const router = useRouter()
+
 export default {
   setup() {
-    const router = useRouter()
     const tournament = reactive({
       eventName      : "",
       bracketType    : "double-elimination",
@@ -135,12 +136,8 @@ export default {
       axios.post('api/tournaments', tournament)
         .then((response) => {
           console.log(response.data)
-
           if (response.data?.error) console.log("ERROR: ", response.data.error?.message)
-          else {
-            router.push({name: 'all-tournaments'})
-          }
-
+          else router.push({name: 'all-tournaments'})
         })
         .catch((error) => {
           console.log("cauht an error: ", {error})

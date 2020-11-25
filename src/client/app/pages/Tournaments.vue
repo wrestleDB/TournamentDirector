@@ -2,8 +2,12 @@
   <div>
     <h1>List of Tournaments</h1>
     <template v-if="!isLoading">
-      <!-- TODO: Each eventCard should be a link to the tournament landing page. -->
-      <EventCard v-for="event in events" :key="event.id" :event="event" @click="goToMatchPage(event.id)"/>
+
+      <EventCard v-for="event in events"
+        :key="event.id"
+        :event="event"
+        @click="goToMatchPage(event.id)"/>
+
     </template>
     <p v-else>
       Loading events
@@ -20,7 +24,7 @@ export default {
   setup(props, context){
     const router = useRouter()
     const goToMatchPage = (eventId) => {
-      router.push({name: `event/${eventId}`})
+      router.push({name: 'event-page', params: {id: eventId}})
     }
     return {goToMatchPage}
   },
