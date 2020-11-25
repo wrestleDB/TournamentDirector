@@ -32,7 +32,6 @@ export default {
       set: (date) => emit('update:modelValue', date)
     })
 
-
     datePicker.onConfirm = function() {
       selectedStartDate.value = DateTime.fromJSDate(this.selectedDates[0])
       // dateSet.endDate = DateTime.fromJSDate(this.selectedDates[0])

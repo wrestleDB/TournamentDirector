@@ -75,29 +75,13 @@
       </div>
     </div>
     <hr>
-      <div v-show="true" style="text-align: center">
-        <div>
-          <button v-if="canGoBack" @click="goBack">
-            <i class="fad fa-arrow-to-left"></i>
-            Go Back
-          </button>
-
-          <button v-else disabled hidden>
-            Start
-          </button>
-
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current Step:&nbsp;{{currentStep}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-          <button v-if="canGoForward" @click="goForward">
-            Next Step
-            <i class="fad fa-arrow-to-right"></i>
-          </button>
-
-          <button v-else disabled hidden>
-            End
-          </button>
-        </div>
-      </div>
+    <div>
+      <button v-if="canGoBack" @click="goBack"><i class="fad fa-arrow-to-left"></i> Go Back</button>
+      <button v-else disabled hidden> Start</button>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current Step:&nbsp;{{currentStep}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button v-if="canGoForward" @click="goForward"> Next Step <i class="fad fa-arrow-to-right"></i></button>
+      <button v-else disabled hidden> End </button>
+    </div>
     <hr>
   </div>
 </template>
