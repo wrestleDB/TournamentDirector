@@ -4,7 +4,7 @@
       <i class="fad fa-home-lg"></i> Add Tournament
     </h1>
     <ProgressTracker v-model="currentStep"/>
-    <hr>
+    <br><hr>
     <div class="regcard">
       <div v-show="currentStep === 1">
         <InputField v-model="eventName" label="Tournament Name"/>
@@ -66,19 +66,12 @@
       </div>
     </div>
     <hr>
-    <div>
-      <button v-if="canGoBack" @click="goBack"><i class="fad fa-arrow-to-left"></i> Go Back</button>
-      <button v-else disabled hidden> Start</button>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current Step:&nbsp;{{currentStep}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <button v-if="canGoForward" @click="goForward"> Next Step <i class="fad fa-arrow-to-right"></i></button>
-      <button v-else disabled hidden> End </button>
-    </div>
+    <GoForwardGoBack v-model="currentStep"/>
     <hr>
   </div>
 </template>
 
 <script>
-// import bent from 'bent'
 import axios from 'axios'
 import {DateTime} from 'luxon'
 import {reactive, computed, toRefs, ref } from 'vue'
@@ -86,12 +79,14 @@ import {useRouter} from 'vue-router'
 import {bracketTypes} from '../../../helpers/constants'
 
 import ProgressTracker from './ProgressTracker.vue'
+import GoForwardGoBack from './GoForwardGoBack.vue'
 
 const router = useRouter()
 
 export default {
   components: {
-    'ProgressTracker': ProgressTracker
+    'ProgressTracker': ProgressTracker,
+    'GoForwardGoBack': GoForwardGoBack
   },
   setup() {
     const tournament = reactive({
@@ -142,13 +137,15 @@ export default {
 
     const currentStep = ref(1)
 
-    const canGoBack    = computed(() => currentStep.value > 1)
-    const canGoForward = computed(() => currentStep.value < 5)
+    // const canGoBack    = computed(() => currentStep.value > 1)
+    // const canGoForward = computed(() => currentStep.value < 5)
 
-    const goForward = () => {currentStep.value++}
-    const goBack    = () => {currentStep.value--}
+    // const goForward = () => {currentStep.value++}
+    // const goBack    = () => {currentStep.value--}
 
-    return {...toRefs(tournament),bracketTypes, addTournament, currentStep, canGoBack, canGoForward, goForward, goBack}
+
+
+    return {...toRefs(tournament),bracketTypes, addTournament, currentStep}
   }
 }
 </script>
