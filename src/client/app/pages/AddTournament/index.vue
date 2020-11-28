@@ -3,16 +3,7 @@
     <h1>
       <i class="fad fa-home-lg"></i> Add Tournament
     </h1>
-      <div class="container-progressbar">
-        <ul class="progressbar">
-          <li v-bind:class="{active: currentStep > 0}">Name/Date</li>
-          <li v-bind:class="{active: currentStep > 1}">Location</li>
-          <li v-bind:class="{active: currentStep > 2}">Details</li>
-          <li v-bind:class="{active: currentStep > 3}">Registration</li>
-          <li v-bind:class="{active: currentStep > 4}">Finished</li>
-        </ul>
-      </div>
-    <br>
+    <ProgressTracker v-model="currentStep"/>
     <hr>
     <div class="regcard">
       <div v-show="currentStep === 1">
@@ -75,29 +66,13 @@
       </div>
     </div>
     <hr>
-      <div v-show="true" style="text-align: center">
-        <div>
-          <button v-if="canGoBack" @click="goBack">
-            <i class="fad fa-arrow-to-left"></i>
-            Go Back
-          </button>
-
-          <button v-else disabled hidden>
-            Start
-          </button>
-
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current Step:&nbsp;{{currentStep}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-          <button v-if="canGoForward" @click="goForward">
-            Next Step
-            <i class="fad fa-arrow-to-right"></i>
-          </button>
-
-          <button v-else disabled hidden>
-            End
-          </button>
-        </div>
-      </div>
+    <div>
+      <button v-if="canGoBack" @click="goBack"><i class="fad fa-arrow-to-left"></i> Go Back</button>
+      <button v-else disabled hidden> Start</button>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current Step:&nbsp;{{currentStep}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button v-if="canGoForward" @click="goForward"> Next Step <i class="fad fa-arrow-to-right"></i></button>
+      <button v-else disabled hidden> End </button>
+    </div>
     <hr>
   </div>
 </template>
@@ -108,11 +83,17 @@ import axios from 'axios'
 import {DateTime} from 'luxon'
 import {reactive, computed, toRefs, ref } from 'vue'
 import {useRouter} from 'vue-router'
-import {bracketTypes} from '../../helpers/constants'
+import {bracketTypes} from '../../../helpers/constants'
+
+import ProgressTracker from './ProgressTracker.vue'
+
+const router = useRouter()
 
 export default {
+  components: {
+    'ProgressTracker': ProgressTracker
+  },
   setup() {
-    const router = useRouter()
     const tournament = reactive({
       eventName      : "",
       bracketType    : "double-elimination",
@@ -151,12 +132,8 @@ export default {
       axios.post('api/tournaments', tournament)
         .then((response) => {
           console.log(response.data)
-
           if (response.data?.error) console.log("ERROR: ", response.data.error?.message)
-          else {
-            router.push({name: 'all-tournaments'})
-          }
-
+          else router.push({name: 'all-tournaments'})
         })
         .catch((error) => {
           console.log("cauht an error: ", {error})
@@ -177,15 +154,27 @@ export default {
 </script>
 
 <style scoped>
+#add-tournament {
+  margin-left: 50%;
+  transform: translateX(-50%);
+  text-align: right;
+  padding: 10;
+  border-radius: 1px;
+  /* display: inline-block; */
+  background-color: #f2f2f2;
+  box-shadow: 5px 10px 2em #888888;
+  align-self: center;
+}
+
 .regcard {
-  width: 100%;
+  width: 90%;
   min-height: 350;
   text-align: left;
   padding: 20;
   border-radius: 5px;
   background-color: #f2f2f2;
 }
-.dateinput {
+/* .dateinput {
   font-family:'arial';
   padding: .25em .5em;
   margin: 1.5rem 1em;
@@ -193,8 +182,8 @@ export default {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-}
-.container-progressbar {
+} */
+/* .container-progressbar {
   width: 100%;
   margin: auto;
   padding-bottom: 50;
@@ -248,8 +237,8 @@ export default {
 .progressbar li.active:after {
   background-color: #1bb630;
   transition-timing-function: linear;
-}
-.container{
+} */
+/* .container{
   display: flex;
 }
 .fixed{
@@ -257,6 +246,6 @@ export default {
 }
 .flex-item{
   flex-grow: 1;
-}
+} */
 
 </style>

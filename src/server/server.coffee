@@ -77,6 +77,26 @@ app.post '/api/login', (req, res) ->
       res.json(error.toJSON()).status(400).end()
 # app.use "/auth", sessionServer TODO: SETUP REDIS SESSION SERVER FOR PAYMENT AUTHENTICATION
 
+app.get '/api/event/:id', verifyToken, (req, res) ->
+  console.log "get api/event params: ", req.params
+  # res.json(req.params).status(200).end()
+  res.json({error: "no id supplied"}).status(400).end() unless req.params.id
+
+  jwt.verify req.token, 'the_secret_key', (err) =>
+    if err
+      console.log "Event ERROR!!!"
+      res.sendStatus(401).redirect('/')
+      # res.redirect('/')
+    else
+      axios.get("#{backEndEndpoint}/event/#{req.params.id}")
+        .then (response) ->
+          console.log "RESPONSE: ", response.data
+          res.json(response.data).status(200).end()
+
+        .catch (error) ->
+          console.log "GET tournaments response error: ", error
+          res.json(error).status(400).end()
+
 app.get '/api/tournaments', verifyToken, (req, res) ->
   jwt.verify req.token, 'the_secret_key', (err) =>
     if err

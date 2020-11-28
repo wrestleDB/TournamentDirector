@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router' # there is also createWebHashHistory and createMemoryHistory
 import Home          from './app/pages/Home.vue'
-import AddTournament from './app/pages/AddTournament.vue'
+import AddTournament from './app/pages/AddTournament/index.vue'
 import Tournaments   from './app/pages/Tournaments.vue'
 import Locations     from './app/pages/Locations.vue'
 import Teams         from './app/pages/Teams.vue'
 import Wrestlers     from './app/pages/Wrestlers.vue'
 import UserAdmin     from './app/pages/UserAdmin.vue'
 import NotFound      from './app/pages/NotFound.vue'
-
 import Login         from './app/pages/Login.vue'
 import RegisterUser  from './app/pages/RegisterUser.vue'
+import EventPage     from './app/pages/EventPage.vue'
 
 
 # Migration Guide: https://next.router.vuejs.org/guide/migration/#new-features
@@ -21,6 +21,7 @@ router = createRouter({
     { path: '/',                name: 'home',            component: Home,          meta: {requiresAuth: true} }
     { path: '/login',           name: 'login',           component: Login                                     }
     { path: '/registerUser',    name: 'register-user',   component: RegisterUser                              }
+    { path: '/event/:id',       name: 'event-page',      component: EventPage,     meta: {requiresAuth: true} }
     { path: '/addTournament',   name: 'add-tournament',  component: AddTournament, meta: {requiresAuth: true} }
     { path: '/allTournaments',  name: 'all-tournaments', component: Tournaments,   meta: {requiresAuth: true} }
     { path: '/allLocations',    name: 'all-locations',   component: Locations,     meta: {requiresAuth: true} }

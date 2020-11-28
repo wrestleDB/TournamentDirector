@@ -1,1 +1,0 @@
-export let bracketTypes = ["Double Elimination", "Round Robin"]
