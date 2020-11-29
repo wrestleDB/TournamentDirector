@@ -6,6 +6,7 @@
       title="tournamentStart"
       v-model="step1.startDate"
     /><span> ^^^^ Select Start Date: {{step1.startDate?.toHTTP()}}</span>
+    {{step1}}
   </div>
 </template>
 

@@ -6,36 +6,40 @@
     <ProgressTracker v-model="currentStep"/>
     <br><hr>
     <div class="regcard">
-      <div v-show="currentStep === 1"><Step1 v-model="step1"/></div>
-      <!-- <div v-show="currentStep === 11">
-        <InputField v-model="eventName" label="Tournament Name"/>
+      <!-- <div v-show="currentStep === 1"><Step1 v-model="step1"/></div> -->
+      <div v-show="currentStep === 1">
+        <Step1 v-model="step1"/>
+        <!-- <InputField v-model="eventName" label="Tournament Name"/>
         <br>
         <DatePicker
           title="tournamentStart"
           v-model="eventDate.startDate"
-        /><span> ^^^^ Select Start Date: {{eventDate.startDate?.toHTTP()}}</span>
-      </div> -->
+        /><span> ^^^^ Select Start Date: {{eventDate.startDate?.toHTTP()}}</span> -->
+      </div>
 
       <div v-show="currentStep === 2">
-        <InputField v-model="location.address" label="Address"/><br>
+        <Step2 v-model="step2" />
+        <!-- <InputField v-model="location.address" label="Address"/><br>
         <InputField v-model="location.postalCode" label="Postal Code"/><br>
         <InputField v-model="location.city" label="City"/><br>
-        <InputField v-model="location.state" label="State"/><br>
+        <InputField v-model="location.state" label="State"/><br> -->
       </div>
 
       <div v-show="currentStep === 3">
-        <InputField v-model="registration.numberOfMats" label="# of Mats"/>
+        <Step3 v-model="step3" />
+        <!-- <InputField v-model="registration.numberOfMats" label="# of Mats"/>
         <InputField v-model="registration.minWrestlers" label="Min # of Wrestlers"/>
         <InputField v-model="registration.maxWrestlers" label="Max # of wrestlers"/>
         <DropDown
           v-bind:options="bracketTypes"
           v-model="bracketType"
           label="Bracket Type"
-        />
+        /> -->
       </div>
 
       <div v-show="currentStep === 4">
-        <p> Select Registration Open Date: {{registration.entryOpenDate?.toHTTP()}}
+        <Step4 v-model="step4" />
+        <!-- <p> Select Registration Open Date: {{registration.entryOpenDate?.toHTTP()}}
         <DatePicker
           title="registrationStart"
           v-model="registration.entryOpenDate"
@@ -52,18 +56,21 @@
 					<input type="date" name="registrationEnd" class="dateinput">
 				</div> <br>
         <InputField v-model="registration.entryFee" label="Entry Fee $$"/><br>
-        <InputField v-model="registration.inviteOnly" label="Invite Only?"/><br>
+        <InputField v-model="registration.inviteOnly" label="Invite Only?"/><br> -->
       </div>
 
       <div v-show="currentStep === 5">
         <h1>Summary:</h1>
         <p>Step1: {{step1}}</p>
-        <p>Event Name: {{eventName}}</p>
+        <p>Step2: {{step2}}</p>
+        <p>Step3: {{step3}}</p>
+        <p>Step4: {{step4}}</p>
+        <!-- <p>Event Name: {{eventName}}</p>
         <p>Bracket Type: {{bracketType}}</p>
         <p>Number Of Mats: {{numberOfMats}}</p><br>
         <p>Event Date: {{eventDate}}</p>
         <p>Location: {{location}}</p>
-        <p>registration: {{registration}}</p>
+        <p>registration: {{registration}}</p> -->
         <button @click="addTournament()">Create Tournament</button>
       </div>
     </div>
