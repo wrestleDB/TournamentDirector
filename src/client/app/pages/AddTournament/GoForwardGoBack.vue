@@ -21,6 +21,7 @@ export default {
       get: () => props.modelValue,
       set: (stepCount) => emit('update:modelValue', stepCount)
     })
+
     const canGoBack    = computed(() => currentStep.value > 1)
     const canGoForward = computed(() => currentStep.value < 5)
 

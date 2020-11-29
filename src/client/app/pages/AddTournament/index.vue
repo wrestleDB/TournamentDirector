@@ -6,14 +6,15 @@
     <ProgressTracker v-model="currentStep"/>
     <br><hr>
     <div class="regcard">
-      <div v-show="currentStep === 1">
+      <div v-show="currentStep === 1"><Step1 v-model="step1"/></div>
+      <!-- <div v-show="currentStep === 11">
         <InputField v-model="eventName" label="Tournament Name"/>
         <br>
         <DatePicker
           title="tournamentStart"
           v-model="eventDate.startDate"
         /><span> ^^^^ Select Start Date: {{eventDate.startDate?.toHTTP()}}</span>
-      </div>
+      </div> -->
 
       <div v-show="currentStep === 2">
         <InputField v-model="location.address" label="Address"/><br>
@@ -56,6 +57,7 @@
 
       <div v-show="currentStep === 5">
         <h1>Summary:</h1>
+        <p>Step1: {{step1}}</p>
         <p>Event Name: {{eventName}}</p>
         <p>Bracket Type: {{bracketType}}</p>
         <p>Number Of Mats: {{numberOfMats}}</p><br>
@@ -80,15 +82,24 @@ import {bracketTypes} from '../../../helpers/constants'
 
 import ProgressTracker from './ProgressTracker.vue'
 import GoForwardGoBack from './GoForwardGoBack.vue'
+import Step1 from './Step1.vue'
+import Step2 from './Step2.vue'
+import Step3 from './Step3.vue'
+import Step4 from './Step4.vue'
 
 const router = useRouter()
 
 export default {
   components: {
-    'ProgressTracker': ProgressTracker,
-    'GoForwardGoBack': GoForwardGoBack
+    ProgressTracker,
+    GoForwardGoBack,
+    Step1,
+    Step2,
+    Step3,
+    Step4
   },
   setup() {
+    const currentStep = ref(1)
     const tournament = reactive({
       eventName      : "",
       bracketType    : "double-elimination",
@@ -109,7 +120,7 @@ export default {
         timezone   : ""
       },
       registration: {
-        numberOfMats   : "",
+        numberOfMats   : "", // Optional, should be able to set later.
         entryFee       : "",
         inviteOnly     : "",
         openDate       : "",
@@ -122,6 +133,45 @@ export default {
       }
     })
 
+    const tournamentData = reactive({
+      step1: { // Name & Date
+        eventName: "",
+        eventDate: {
+          startDate: null,
+          endDate  : null,
+        },
+        inviteOnly: false,
+        entryFee: 0
+      },
+      step2: { // Location
+        address    : "",
+        address2   : "",
+        city       : "",
+        state      : "",
+        postalCode : "",
+        country    : "US",
+        lat        : 0,
+        lng        : 0,
+        timezone   : ""
+      },
+      step3: { // Registration
+        numberOfMats   : "", // Optional, should be able to set later.
+        entryFee       : "",
+        inviteOnly     : "",
+        openDate       : "",
+        closeDate      : "",
+        minWrestlers   : "",
+        maxWrestlers   : "",
+        earlyDiscount  : "",
+        earlyOpenDate  : "",
+        earlyCloseDate : ""
+      },
+      step4: { // Set Divisions (weights, age groups, gender, etc.)
+        divisions: [] //Handle this logic in the divisions component, bunch of strings
+      }
+
+    })
+
     const addTournament = async function () {
       console.log("Adding Tournament")
       axios.post('api/tournaments', tournament)
@@ -132,20 +182,11 @@ export default {
         })
         .catch((error) => {
           console.log("cauht an error: ", {error})
-        })
+        }
+      )
     }
 
-    const currentStep = ref(1)
-
-    // const canGoBack    = computed(() => currentStep.value > 1)
-    // const canGoForward = computed(() => currentStep.value < 5)
-
-    // const goForward = () => {currentStep.value++}
-    // const goBack    = () => {currentStep.value--}
-
-
-
-    return {...toRefs(tournament),bracketTypes, addTournament, currentStep}
+    return {...toRefs(tournament), ...toRefs(tournamentData), bracketTypes, addTournament, currentStep}
   }
 }
 </script>
@@ -171,78 +212,5 @@ export default {
   border-radius: 5px;
   background-color: #f2f2f2;
 }
-/* .dateinput {
-  font-family:'arial';
-  padding: .25em .5em;
-  margin: 1.5rem 1em;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-} */
-/* .container-progressbar {
-  width: 100%;
-  margin: auto;
-  padding-bottom: 50;
-}
-.progressbar {
-  counter-reset: step 0;
-}
-.progressbar li {
-  list-style-type: none;
-  width: 20%;
-  float: left;
-  font-size: 14px;
-  position: relative;
-  text-align: center;
-  text-transform: uppercase;
-  color: #363636;
-}
-.progressbar li:before {
-  width: 30px;
-  height: 30px;
-  content: counter(step);
-  counter-increment: step;
-  line-height: 30px;
-  border: 4px solid #6d6d6d;
-  display: block;
-  text-align: center;
-  margin: 0 auto 10px auto;
-  border-radius: 50%;
-  background-color: white;
-}
-.progressbar li:after {
-  width: 100%;
-  height: 10px;
-  content: '';
-  position: absolute;
-  background-color: #6d6d6d;
-  top: 15px;
-  left: -50%;
-  z-index: -1;
-}
-.progressbar li:first-child:after {
-  content: none;
-}
-.progressbar li.active {
-  color: #363636;
-}
-.progressbar li.active:before {
-  border-color: #1bb630;
-  background-color: #fafafa
-}
-.progressbar li.active:after {
-  background-color: #1bb630;
-  transition-timing-function: linear;
-} */
-/* .container{
-  display: flex;
-}
-.fixed{
-  width: 30px;
-}
-.flex-item{
-  flex-grow: 1;
-} */
 
 </style>
