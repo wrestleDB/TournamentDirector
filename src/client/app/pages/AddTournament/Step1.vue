@@ -1,11 +1,22 @@
 <template>
   <div>
     <InputField v-model="step1.eventName" label="Tournament Name"/>
-    <br>
+    <hr>
+
     <DatePicker
-      title="tournamentStart"
-      v-model="step1.startDate"
-    /><span> ^^^^ Select Start Date: {{step1.startDate?.toHTTP()}}</span>
+      label="Start Date"
+      v-model="step1.eventDate.startDate"
+    />
+    <hr>
+    <Checkbox
+      v-model="step1.inviteOnly"
+      label="Invite Only?"
+    />
+
+    <hr>
+
+    <InputField v-model="step1.entryFee" label="Entry Fee"/>
+    <hr>
     {{step1}}
   </div>
 </template>

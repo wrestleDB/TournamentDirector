@@ -6,7 +6,6 @@
     <ProgressTracker v-model="currentStep"/>
     <br><hr>
     <div class="regcard">
-      <!-- <div v-show="currentStep === 1"><Step1 v-model="step1"/></div> -->
       <div v-show="currentStep === 1">
         <Step1 v-model="step1"/>
         <!-- <InputField v-model="eventName" label="Tournament Name"/>
@@ -86,7 +85,6 @@ import {DateTime} from 'luxon'
 import {reactive, computed, toRefs, ref } from 'vue'
 import {useRouter} from 'vue-router'
 import {bracketTypes} from '../../../helpers/constants'
-
 import ProgressTracker from './ProgressTracker.vue'
 import GoForwardGoBack from './GoForwardGoBack.vue'
 import Step1 from './Step1.vue'
@@ -199,17 +197,17 @@ export default {
 </script>
 
 <style scoped>
-#add-tournament {
+/* #add-tournament {
   margin-left: 50%;
   transform: translateX(-50%);
   text-align: right;
   padding: 10;
   border-radius: 1px;
-  /* display: inline-block; */
+  display: inline-block;
   background-color: #f2f2f2;
   box-shadow: 5px 10px 2em #888888;
   align-self: center;
-}
+} */
 
 .regcard {
   width: 90%;
