@@ -13,7 +13,7 @@
 <script>
 export default {
   props: {
-    modelValue: Object
+    modelValue: Number
   }
 }
 </script>
