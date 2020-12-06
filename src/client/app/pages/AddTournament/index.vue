@@ -8,54 +8,18 @@
     <div class="regcard">
       <div v-show="currentStep === 1">
         <Step1 v-model="step1"/>
-        <!-- <InputField v-model="eventName" label="Tournament Name"/>
-        <br>
-        <DatePicker
-          title="tournamentStart"
-          v-model="eventDate.startDate"
-        /><span> ^^^^ Select Start Date: {{eventDate.startDate?.toHTTP()}}</span> -->
       </div>
 
       <div v-show="currentStep === 2">
         <Step2 v-model="step2" />
-        <!-- <InputField v-model="location.address" label="Address"/><br>
-        <InputField v-model="location.postalCode" label="Postal Code"/><br>
-        <InputField v-model="location.city" label="City"/><br>
-        <InputField v-model="location.state" label="State"/><br> -->
       </div>
 
       <div v-show="currentStep === 3">
         <Step3 v-model="step3" />
-        <!-- <InputField v-model="registration.numberOfMats" label="# of Mats"/>
-        <InputField v-model="registration.minWrestlers" label="Min # of Wrestlers"/>
-        <InputField v-model="registration.maxWrestlers" label="Max # of wrestlers"/>
-        <DropDown
-          v-bind:options="bracketTypes"
-          v-model="bracketType"
-          label="Bracket Type"
-        /> -->
       </div>
 
       <div v-show="currentStep === 4">
         <Step4 v-model="step4" />
-        <!-- <p> Select Registration Open Date: {{registration.entryOpenDate?.toHTTP()}}
-        <DatePicker
-          title="registrationStart"
-          v-model="registration.entryOpenDate"
-        /></p><p>
-        Select Registration Close Date: {{registration.entryCloseDate?.toHTTP()}}
-        <DatePicker
-          title="registrationEnd"
-          v-model="registration.entryCloseDate"
-        /></p>
-        <div>
-					<label>Registration Start:</label>
-					<input type="date" name="registrationStart" class="dateinput">
-          <label>Registration End:</label>
-					<input type="date" name="registrationEnd" class="dateinput">
-				</div> <br>
-        <InputField v-model="registration.entryFee" label="Entry Fee $$"/><br>
-        <InputField v-model="registration.inviteOnly" label="Invite Only?"/><br> -->
       </div>
 
       <div v-show="currentStep === 5">
@@ -64,12 +28,6 @@
         <p>Step2: {{step2}}</p>
         <p>Step3: {{step3}}</p>
         <p>Step4: {{step4}}</p>
-        <!-- <p>Event Name: {{eventName}}</p>
-        <p>Bracket Type: {{bracketType}}</p>
-        <p>Number Of Mats: {{numberOfMats}}</p><br>
-        <p>Event Date: {{eventDate}}</p>
-        <p>Location: {{location}}</p>
-        <p>registration: {{registration}}</p> -->
         <button @click="addTournament()">Create Tournament</button>
       </div>
     </div>
@@ -82,9 +40,8 @@
 <script>
 import axios from 'axios'
 import {DateTime} from 'luxon'
-import {reactive, computed, toRefs, ref } from 'vue'
+import {reactive, toRefs, ref } from 'vue'
 import {useRouter} from 'vue-router'
-import {bracketTypes} from '../../../helpers/constants'
 import ProgressTracker from './ProgressTracker.vue'
 import GoForwardGoBack from './GoForwardGoBack.vue'
 import Step1 from './Step1.vue'
@@ -104,40 +61,6 @@ export default {
     Step4
   },
   setup() {
-    const currentStep = ref(1)
-    const tournament = reactive({
-      eventName      : "",
-      bracketType    : "double-elimination",
-      numberOfMats   : "",
-      eventDate      : {
-        startDate: null,
-        endDate  : null,
-      },
-      location: {
-        address    : "",
-        address2   : "",
-        city       : "",
-        state      : "",
-        postalCode : "",
-        country    : "US",
-        lat        : 0,
-        lng        : 0,
-        timezone   : ""
-      },
-      registration: {
-        numberOfMats   : "", // Optional, should be able to set later.
-        entryFee       : "",
-        inviteOnly     : "",
-        openDate       : "",
-        closeDate      : "",
-        minWrestlers   : "",
-        maxWrestlers   : "",
-        earlyDiscount  : "",
-        earlyOpenDate  : "",
-        earlyCloseDate : ""
-      }
-    })
-
     const tournamentData = reactive({
       step1: { // Name & Date
         eventName: "",
@@ -162,9 +85,8 @@ export default {
       step3: { // Registration
         numberOfMats   : "", // Optional, should be able to set later.
         entryFee       : "",
-        inviteOnly     : "",
-        openDate       : "",
-        closeDate      : "",
+        openDate       : {},
+        closeDate      : {},
         minWrestlers   : "",
         maxWrestlers   : "",
         earlyDiscount  : "",
@@ -174,8 +96,9 @@ export default {
       step4: { // Set Divisions (weights, age groups, gender, etc.)
         divisions: [] //Handle this logic in the divisions component, bunch of strings
       }
-
     })
+
+    const currentStep = ref(1)
 
     const addTournament = async function () {
       console.log("Adding Tournament")
@@ -191,24 +114,12 @@ export default {
       )
     }
 
-    return {...toRefs(tournament), ...toRefs(tournamentData), bracketTypes, addTournament, currentStep}
+    return {...toRefs(tournamentData), addTournament, currentStep}
   }
 }
 </script>
 
 <style scoped>
-/* #add-tournament {
-  margin-left: 50%;
-  transform: translateX(-50%);
-  text-align: right;
-  padding: 10;
-  border-radius: 1px;
-  display: inline-block;
-  background-color: #f2f2f2;
-  box-shadow: 5px 10px 2em #888888;
-  align-self: center;
-} */
-
 .regcard {
   width: 90%;
   min-height: 350;
